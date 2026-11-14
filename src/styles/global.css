@@ -38,12 +38,11 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
-  background-color: var(--bg);
   color: var(--ink);
 }
 
 body {
-  background-color: var(--bg);
+  background: #161616;
   color: var(--body);
   font-family: 'Archivo Variable', Archivo, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, sans-serif;
@@ -52,7 +51,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  position: relative;
   min-height: 100vh;
 }
 

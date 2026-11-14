@@ -8,14 +8,19 @@ export function initGrain(): void {
     return seed / 2147483647;
   };
 
+  let drawnW = 0;
+  let drawnH = 0;
+
   const draw = () => {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
-    const w = Math.ceil(window.innerWidth * dpr);
-    const h = Math.ceil(
-      Math.max(window.innerHeight, window.screen.height || 0) * dpr
-    );
+    const cssW = window.innerWidth;
+    const cssH = Math.max(window.innerHeight, window.screen.height || 0);
+    const w = Math.ceil(cssW * dpr);
+    const h = Math.ceil(cssH * dpr);
 
-    if (canvas.width === w && canvas.height >= h) return;
+    if (w <= drawnW && h <= drawnH) return;
+    drawnW = w;
+    drawnH = h;
     canvas.width = w;
     canvas.height = h;
 
@@ -26,7 +31,7 @@ export function initGrain(): void {
     ctx.fillStyle = '#161616';
     ctx.fillRect(0, 0, w, h);
 
-    const count = Math.round(((w * h) / (dpr * dpr)) * 0.016);
+    const count = Math.round(cssW * cssH * 0.016);
     const cols = ['#242424', '#2b2b2b', '#333333', '#444444'];
     const weights = [0.45, 0.75, 0.92, 1];
 
