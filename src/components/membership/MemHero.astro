@@ -1,0 +1,82 @@
+---
+---
+
+<header class="phero">
+  <i class="stripe stripe-1 phero-s1" aria-hidden="true"></i>
+  <i class="stripe stripe-2 phero-s2" aria-hidden="true"></i>
+
+  <div class="container phero-wrap">
+    <div class="phero-copy">
+      <span class="section-label">Membership</span>
+      <h1 class="display-title phero-h1 hero-rise">
+        PICK A PLAN.<br />KEEP SHOWING UP.
+      </h1>
+      <p class="phero-sub hero-rise-delayed">
+        Four plans. Same floor, same coaches. Start small if you're unsure and
+        move up anytime.
+      </p>
+    </div>
+  </div>
+</header>
+
+<style>
+  .phero {
+    position: relative;
+    padding: 190px 0 60px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .phero-s1 {
+    right: -60px;
+    top: 80px;
+    width: 90px;
+    height: 360px;
+    z-index: 1;
+  }
+
+  .phero-s2 {
+    right: 110px;
+    top: 140px;
+    width: 34px;
+    height: 240px;
+    z-index: 1;
+  }
+
+  .phero-wrap {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .phero-h1 {
+    font-size: 96px;
+    line-height: 0.95;
+    margin-top: 14px;
+    color: var(--ink);
+  }
+
+  .phero-sub {
+    color: var(--body);
+    font-size: 19px;
+    margin-top: 26px;
+    max-width: 42ch;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .phero {
+      padding: 110px 0 50px;
+    }
+
+    .phero-h1 {
+      font-size: 12.4vw;
+    }
+
+    .phero-sub {
+      font-size: 16px;
+    }
+  }
+</style>

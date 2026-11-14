@@ -1,0 +1,130 @@
+---
+---
+
+<section class="feature-strip" aria-label="Gym features">
+  <div class="container strip-grid">
+    <div class="feature-item">
+      <svg
+        viewBox="0 0 40 40"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M6 15v10M10 12v16M30 12v16M34 15v10M10 20h20" />
+      </svg>
+      <span>Certified coach &amp;<br />professional trainers</span>
+    </div>
+
+    <div class="feature-item">
+      <svg
+        viewBox="0 0 40 40"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M8 32V20M16 32V14M24 32V18M32 32V8M6 34h28" />
+      </svg>
+      <span>Top-brand<br />equipment</span>
+    </div>
+
+    <div class="feature-item">
+      <svg
+        viewBox="0 0 40 40"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M20 4v32M6 12l28 16M6 28l28-16M16 6l4 4 4-4M16 34l4-4 4 4" />
+      </svg>
+      <span>Fully<br />air-conditioned</span>
+    </div>
+
+    <div class="feature-item">
+      <svg
+        viewBox="0 0 40 40"
+        fill="none"
+        stroke="var(--ink)"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="6" y="6" width="28" height="28" rx="4" />
+        <path d="M15 29V11h7a5 5 0 010 10h-7" />
+      </svg>
+      <span>Dedicated parking<br />on the premises</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature-strip {
+    border-block: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .strip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 34px 28px;
+    font-size: 14.5px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .feature-item + .feature-item {
+    border-left: 1px solid var(--line);
+  }
+
+  .feature-item svg {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .strip-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feature-item {
+      padding: 22px 14px;
+      gap: 12px;
+      font-size: 12.5px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .feature-item + .feature-item {
+      border-left: none;
+    }
+
+    .feature-item:nth-child(even) {
+      border-left: 1px solid var(--line);
+    }
+
+    .feature-item:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-item svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+</style>

@@ -1,0 +1,204 @@
+---
+import { Image } from 'astro:assets';
+import bodybuildingImg from '../../assets/photos/bodybuilding.jpg';
+import Button from '../Button.astro';
+---
+
+<section class="about-teaser" aria-labelledby="about-teaser-h2">
+  <div class="about-teaser-ph">
+    <Image
+      src={bodybuildingImg}
+      alt="AlphaPro bodybuilding and free weights floor"
+      class="bw-photo about-img"
+      width={640}
+      height={560}
+      format="webp"
+      loading="lazy"
+    />
+    <i class="stripe stripe-1 about-s1" aria-hidden="true"></i>
+    <i class="stripe stripe-2 about-s2" aria-hidden="true"></i>
+  </div>
+
+  <div class="about-teaser-in">
+    <div class="about-teaser-copy">
+      <h2 id="about-teaser-h2" class="section-h2">MORE THAN A GYM.</h2>
+      <p class="about-desc">
+        At <b>Alpha Pro Fitness</b>, we're the neighbourhood gym that takes training
+        seriously. A big, cool floor, kit that's looked after, and certified coaches
+        who'll actually <b>fix your form</b> before adding weight.
+      </p>
+      <div class="about-cta">
+        <Button href="/about#team" variant="outline" size="card">
+          Meet the team
+        </Button>
+      </div>
+    </div>
+
+    <div class="about-stats" aria-label="Gym stats">
+      <div class="stat-item">
+        <b class="stat-number">
+          <span class="tabular-numbers" data-count="4500">4,500</span><sup>SQ.FT</sup>
+        </b>
+        <span class="stat-label">Training floor</span>
+      </div>
+      <div class="stat-item">
+        <b class="stat-number">8</b>
+        <span class="stat-label">Ways to train</span>
+      </div>
+      <div class="stat-item">
+        <b class="stat-number">₹0</b>
+        <span class="stat-label">First workout</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-teaser {
+    position: relative;
+    display: grid;
+    grid-template-columns: 42% 1fr;
+    min-height: 560px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .about-teaser-ph {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 30%;
+  }
+
+  .about-teaser-ph::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 55%, var(--bg));
+  }
+
+  .about-s1 {
+    left: -70px;
+    top: -20px;
+    width: 110px;
+    height: 300px;
+  }
+
+  .about-s2 {
+    left: 60px;
+    top: -20px;
+    width: 34px;
+    height: 200px;
+  }
+
+  .about-teaser-in {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 60px;
+    align-items: center;
+    padding: 80px 80px 80px 40px;
+  }
+
+  .about-desc {
+    color: var(--body);
+    margin-top: 22px;
+    max-width: 46ch;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .about-desc b {
+    color: var(--ink);
+  }
+
+  .about-cta {
+    margin-top: 30px;
+  }
+
+  .about-stats {
+    border-left: 1px solid var(--line);
+    padding-left: 40px;
+    display: grid;
+    gap: 34px;
+  }
+
+  .stat-number {
+    display: block;
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .stat-number sup {
+    font-size: 0.5em;
+    color: var(--steel);
+    vertical-align: 0.7em;
+    margin-left: 4px;
+  }
+
+  .stat-label {
+    display: block;
+    font-size: 14px;
+    color: var(--mute);
+    margin-top: 6px;
+  }
+
+  @media (max-width: 960px) {
+    .about-teaser-in {
+      grid-template-columns: 1fr;
+      padding: 60px 40px;
+      gap: 40px;
+    }
+    .about-stats {
+      border-left: none;
+      border-top: 1px solid var(--line);
+      padding-left: 0;
+      padding-top: 30px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .about-teaser {
+      grid-template-columns: 1fr;
+    }
+
+    .about-teaser-ph {
+      height: 300px;
+    }
+
+    .about-teaser-ph::after {
+      background: linear-gradient(0deg, var(--bg) 0%, transparent 55%);
+    }
+
+    .about-teaser-in {
+      padding: 20px 20px 60px;
+      gap: 36px;
+    }
+
+    .about-stats {
+      border-top: 1px solid var(--lime);
+      padding: 26px 0 0;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat-number {
+      font-size: 26px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+    }
+  }
+</style>

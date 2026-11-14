@@ -1,0 +1,173 @@
+---
+import { Image } from 'astro:assets';
+import equipImg from '../assets/photos/equip.jpg';
+import Button from './Button.astro';
+
+interface Props {
+  titleTop?: string;
+  titleBottom?: string;
+}
+
+const { titleTop = 'READY TO', titleBottom = 'EVOLVE?' } = Astro.props;
+---
+
+<section class="cta-band" aria-label="Call to action">
+  <div class="cta-ph">
+    <Image
+      src={equipImg}
+      alt="AlphaPro gym equipment"
+      class="bw-photo cta-img"
+      width={720}
+      height={480}
+      format="webp"
+      loading="lazy"
+    />
+  </div>
+
+  <i class="stripe stripe-1 cta-s1" aria-hidden="true"></i>
+  <i class="stripe stripe-2 cta-s2" aria-hidden="true"></i>
+
+  <div class="container cta-in">
+    <div class="cta-content">
+      <h2 class="display-title cta-title">
+        {titleTop}<br />{titleBottom}
+      </h2>
+      <p class="cta-text">
+        Join Alpha Pro Fitness today and take the first step towards a stronger you.
+      </p>
+    </div>
+    <div class="cta-act">
+      <Button href="/#book" variant="primary" size="default" arrow>
+        Book a free trial
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .cta-ph {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 36%;
+    clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+    overflow: hidden;
+  }
+
+  .cta-ph::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 50%, var(--bg));
+  }
+
+  .cta-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 6s linear;
+  }
+
+  .cta-band:hover .cta-img {
+    transform: scale(1.06);
+  }
+
+  .cta-s1 {
+    right: -40px;
+    top: -40px;
+    width: 110px;
+    height: 400px;
+  }
+
+  .cta-s2 {
+    right: 140px;
+    top: -40px;
+    width: 40px;
+    height: 400px;
+  }
+
+  .cta-in {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 40%;
+    padding-right: 80px;
+  }
+
+  .cta-title {
+    font-size: 58px;
+    line-height: 0.95;
+    margin: 0;
+  }
+
+  .cta-text {
+    color: var(--body);
+    margin-top: 12px;
+    max-width: 40ch;
+    font-size: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    .cta-in {
+      padding-right: 40px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cta-band {
+      height: auto;
+      padding: 240px 0 50px;
+    }
+
+    .cta-ph {
+      width: 100%;
+      height: 220px;
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+      bottom: auto;
+    }
+
+    .cta-s1 {
+      right: -50px;
+      top: -30px;
+      width: 60px;
+      height: 300px;
+    }
+
+    .cta-s2 {
+      right: 30px;
+      top: -30px;
+      width: 20px;
+      height: 240px;
+    }
+
+    .cta-in {
+      padding: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .cta-title {
+      font-size: 40px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-img {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

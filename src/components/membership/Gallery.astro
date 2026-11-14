@@ -1,0 +1,228 @@
+---
+import { Image, getImage } from 'astro:assets';
+
+import floorImg from '../../assets/photos/floor.jpg';
+import equipImg from '../../assets/photos/equip.jpg';
+import cardioImg from '../../assets/photos/cardio.jpg';
+import strengthImg from '../../assets/photos/strength.jpg';
+import spaceImg from '../../assets/photos/space.jpg';
+
+const rawItems = [
+  { img: floorImg, caption: 'The main floor', isLarge: true },
+  { img: equipImg, caption: 'Dumbbell wall', isLarge: false },
+  { img: cardioImg, caption: 'Cardio deck', isLarge: false },
+  { img: strengthImg, caption: 'Platforms', isLarge: false },
+  { img: spaceImg, caption: 'Fully air-conditioned', isLarge: false },
+];
+
+const galleryItems = await Promise.all(
+  rawItems.map(async (item) => {
+    const lightboxOpt = await getImage({
+      src: item.img,
+      width: 1100,
+      format: 'webp',
+    });
+    return {
+      ...item,
+      lightboxSrc: lightboxOpt.src,
+    };
+  })
+);
+---
+
+<section class="gal-section" aria-labelledby="gallery-h2">
+  <div class="container">
+    <span class="section-label">What you're paying for</span>
+    <h2 id="gallery-h2" class="section-h2">INSIDE ALPHAPRO.</h2>
+
+    <div class="gallery-grid">
+      {
+        galleryItems.map((item) => (
+          <button
+            type="button"
+            class:list={['gi', 'gallery-thumb', { a: item.isLarge }]}
+            data-src={item.lightboxSrc}
+            data-cap={item.caption}
+            aria-label={`View larger photo: ${item.caption}`}
+          >
+            <Image
+              src={item.img}
+              alt={item.caption}
+              class="bw-photo"
+              width={item.isLarge ? 640 : 320}
+              height={item.isLarge ? 492 : 240}
+              format="webp"
+              loading="lazy"
+            />
+            <span>{item.caption}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <p class="ph-note">
+      Stock photos for the mockup. Replace with real shots of the AlphaPro floor.
+    </p>
+  </div>
+
+  <!-- Lightbox Dialog -->
+  <dialog
+    id="lightbox-dialog"
+    class="lb-dialog"
+    aria-labelledby="lightbox-cap"
+    closedby="any"
+  >
+    <div class="lb-inner">
+      <button
+        type="button"
+        class="lb-x"
+        id="lightbox-close"
+        aria-label="Close lightbox"
+        autofocus
+      >
+        ✕
+      </button>
+      <img id="lightbox-img" src="" alt="" class="bw-photo" />
+      <p id="lightbox-cap"></p>
+    </div>
+  </dialog>
+</section>
+
+<style>
+  .gal-section {
+    padding: 110px 0;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .gi {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    background: var(--surf);
+    cursor: zoom-in;
+    border: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .gi.a {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .gi img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .gi:hover img {
+    transform: scale(1.05);
+  }
+
+  .gi span {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    background: rgba(14, 14, 14, 0.8);
+    padding: 6px 10px;
+  }
+
+  .ph-note {
+    font-size: 12px;
+    color: #6b6d70;
+    margin-top: 20px;
+  }
+
+  /* Dialog Lightbox */
+  .lb-dialog {
+    margin: auto;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    max-width: 100vw;
+    max-height: 100vh;
+    overscroll-behavior: contain;
+  }
+
+  .lb-dialog::backdrop {
+    background: rgba(10, 10, 10, 0.94);
+    overflow: hidden;
+    overscroll-behavior: contain;
+  }
+
+  .lb-inner {
+    display: grid;
+    place-items: center;
+    padding: max(24px, env(safe-area-inset-top)) 16px 24px;
+    min-width: 300px;
+  }
+
+  .lb-inner img {
+    max-width: min(1100px, 92vw);
+    max-height: 78vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .lb-inner p {
+    margin-top: 14px;
+    color: var(--mute);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .lb-x {
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    background: rgba(20, 20, 21, 0.8);
+    color: var(--ink);
+    font-size: 18px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .lb-x:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+
+  @media (max-width: 640px) {
+    .gal-section {
+      padding: 70px 0;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 200px 130px 130px;
+      margin-top: 24px;
+    }
+
+    .gi.a {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+  }
+</style>

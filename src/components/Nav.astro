@@ -1,0 +1,251 @@
+---
+import { Image } from 'astro:assets';
+import logoImg from '../assets/logo/af-full.png';
+import Button from './Button.astro';
+import { siteConfig } from '../data/site';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+function isActive(href: string): boolean {
+  if (href === '/' && currentPath === '/') return true;
+  if (href === '/about' && currentPath.startsWith('/about')) return true;
+  if (href === '/membership' && currentPath.startsWith('/membership')) return true;
+  return false;
+}
+---
+
+<nav aria-label="Main Navigation">
+  <div class="container nav-wrap">
+    <a href="/" class="logo" aria-label="Alpha Pro Fitness home">
+      <Image
+        src={logoImg}
+        alt="AlphaPro Fitness Logo"
+        class="logo-img"
+        width={140}
+        height={68}
+        format="webp"
+        loading="eager"
+      />
+      <i class="logo-divider" aria-hidden="true"></i>
+      <span class="logo-text">
+        <b class="brand-top">{siteConfig.brandNameTop}</b>
+        <small class="brand-bottom">{siteConfig.brandNameBottom}</small>
+      </span>
+    </a>
+
+    <div class="nav-links">
+      {
+        siteConfig.navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={['nav-link', { on: isActive(link.href) }]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="nav-cta">
+      <Button href="/#book" variant="primary" size="nav">
+        Book a free trial
+      </Button>
+    </div>
+
+    <button
+      type="button"
+      class="burger"
+      id="burger"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="sheet"
+    >
+      <i aria-hidden="true"></i>
+      <i aria-hidden="true"></i>
+      <i aria-hidden="true"></i>
+    </button>
+  </div>
+</nav>
+
+<style>
+  nav {
+    position: fixed;
+    top: env(safe-area-inset-top, 0px);
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: transparent;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  nav.solid {
+    background: rgba(20, 20, 21, 0.96);
+    box-shadow: 0 1px 0 var(--line);
+  }
+
+  .nav-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 92px;
+    border-bottom: 1px solid var(--line);
+    transition: border-bottom-color 0.3s ease;
+  }
+
+  nav.solid .nav-wrap {
+    border-bottom-color: transparent;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .logo-img {
+    height: 68px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .logo-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .brand-top {
+    display: block;
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .brand-bottom {
+    display: block;
+    font-size: 11.5px;
+    letter-spacing: 0.62em;
+    color: var(--lime);
+    margin-top: 6px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 38px;
+    font-size: 14px;
+  }
+
+  .nav-link {
+    color: #d9d9d4;
+    text-decoration: none;
+    position: relative;
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: var(--ink);
+  }
+
+  .nav-link.on {
+    color: var(--lime);
+    font-weight: 600;
+  }
+
+  .nav-link.on::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 2px;
+    background: var(--lime);
+  }
+
+  .burger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  .burger i {
+    display: block;
+    height: 2px;
+    background: var(--ink);
+    transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  }
+
+  .burger i:last-child {
+    width: 60%;
+    background: var(--lime);
+    justify-self: end;
+  }
+
+  .burger.x i:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .burger.x i:nth-child(2) {
+    opacity: 0;
+  }
+  .burger.x i:nth-child(3) {
+    width: 100%;
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  @media (max-width: 640px) {
+    .nav-wrap {
+      height: 70px;
+    }
+
+    .logo-img {
+      height: 46px;
+    }
+
+    .logo-divider {
+      height: 30px;
+    }
+
+    .brand-top {
+      font-size: 13px;
+    }
+
+    .brand-bottom {
+      font-size: 9px;
+      letter-spacing: 0.5em;
+    }
+
+    .nav-links,
+    .nav-cta {
+      display: none;
+    }
+
+    .burger {
+      display: grid;
+      gap: 6px;
+      width: 26px;
+    }
+  }
+</style>

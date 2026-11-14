@@ -1,0 +1,80 @@
+---
+import Button from '../Button.astro';
+---
+
+<section class="teaser-band" aria-labelledby="plans-teaser-h2">
+  <div class="container teaser-wrap">
+    <div class="teaser-copy">
+      <h2 id="plans-teaser-h2" class="section-h2 teaser-h2">
+        PLANS FROM ₹1,999 A MONTH.
+      </h2>
+      <p class="teaser-text">
+        Monthly, quarterly, half-yearly or annual. Same floor, same coaches. Sample
+        prices.
+      </p>
+    </div>
+    <div class="teaser-acts">
+      <Button href="/membership" variant="primary" size="default" arrow>
+        See membership
+      </Button>
+      <Button href="/membership#compare" variant="outline" size="default">
+        Compare plans
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .teaser-band {
+    border-block: 1px solid var(--line);
+    padding: 56px 0;
+    background: transparent;
+  }
+
+  .teaser-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .teaser-h2 {
+    margin: 0;
+    font-size: 40px;
+  }
+
+  .teaser-text {
+    color: var(--mute);
+    margin-top: 10px;
+    font-size: 16px;
+  }
+
+  .teaser-acts {
+    display: flex;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .teaser-wrap {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+    }
+
+    .teaser-h2 {
+      font-size: 30px;
+    }
+
+    .teaser-acts {
+      flex-direction: column;
+      width: 100%;
+      gap: 10px;
+    }
+
+    .teaser-acts :global(.btn) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+</style>

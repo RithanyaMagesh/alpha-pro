@@ -1,0 +1,122 @@
+---
+import { Image } from 'astro:assets';
+import floorImg from '../../assets/photos/floor.jpg';
+---
+
+<header class="phero">
+  <i class="stripe stripe-1 phero-s1" aria-hidden="true"></i>
+  <i class="stripe stripe-2 phero-s2" aria-hidden="true"></i>
+
+  <div class="container phero-wrap">
+    <div class="phero-copy">
+      <span class="section-label">About AlphaPro</span>
+      <h1 class="display-title phero-h1 hero-rise">
+        THE PEOPLE<br />BEHIND<br />THE IRON.
+      </h1>
+      <p class="phero-sub hero-rise-delayed">
+        A neighbourhood gym in Lingadheeranahalli, run by people who lift, coach
+        and actually show up every day.
+      </p>
+    </div>
+
+    <div class="phero-ph hero-photo-zoom">
+      <Image
+        src={floorImg}
+        alt="AlphaPro training floor"
+        class="bw-photo phero-img"
+        width={720}
+        height={440}
+        format="webp"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</header>
+
+<style>
+  .phero {
+    position: relative;
+    padding: 190px 0 90px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .phero-s1 {
+    right: -60px;
+    top: 80px;
+    width: 90px;
+    height: 420px;
+    z-index: 1;
+  }
+
+  .phero-s2 {
+    right: 110px;
+    top: 140px;
+    width: 34px;
+    height: 300px;
+    z-index: 1;
+  }
+
+  .phero-wrap {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 60px;
+    align-items: end;
+  }
+
+  .phero-h1 {
+    font-size: 96px;
+    line-height: 0.95;
+    margin-top: 14px;
+    color: var(--ink);
+  }
+
+  .phero-sub {
+    color: var(--body);
+    font-size: 19px;
+    margin-top: 26px;
+    max-width: 36ch;
+    line-height: 1.5;
+  }
+
+  .phero-ph {
+    position: relative;
+    height: 440px;
+    overflow: hidden;
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .phero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 640px) {
+    .phero {
+      padding: 110px 0 50px;
+    }
+
+    .phero-wrap {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .phero-h1 {
+      font-size: 12.4vw;
+    }
+
+    .phero-sub {
+      font-size: 16px;
+    }
+
+    .phero-ph {
+      height: 260px;
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    }
+  }
+</style>

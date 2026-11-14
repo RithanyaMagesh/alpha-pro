@@ -1,0 +1,57 @@
+---
+interface Props {
+  label?: string;
+  title: string;
+  id?: string;
+  class?: string;
+}
+
+const { label, title, id, class: className = '' } = Astro.props;
+---
+
+<div class:list={['section-head', className]}>
+  {label && <span class="section-label">{label}</span>}
+  <h2 id={id} class="section-h2">{title}</h2>
+</div>
+
+<style>
+  .section-head {
+    margin-bottom: 30px;
+  }
+
+  .section-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--steel);
+    margin-bottom: 14px;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .section-h2 {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    font-size: 46px;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  @media (max-width: 640px) {
+    .section-head {
+      margin-bottom: 24px;
+    }
+    .section-label {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .section-h2 {
+      font-size: 30px;
+    }
+  }
+</style>

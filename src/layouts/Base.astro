@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import MobileMenu from '../components/MobileMenu.astro';
+import Footer from '../components/Footer.astro';
+import { siteConfig } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  currentPath?: string;
+  isHome?: boolean;
+}
+
+const {
+  title,
+  description,
+  currentPath = Astro.url.pathname,
+  isHome = false,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://alphaprofitness.in').href;
+const ogImageUrl = new URL('/og-image.png', Astro.site || 'https://alphaprofitness.in').href;
+
+const schemaData = isHome
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'HealthClub',
+      name: siteConfig.name,
+      description: siteConfig.description,
+      telephone: siteConfig.phoneFormatted,
+      url: 'https://alphaprofitness.in',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: siteConfig.streetAddress,
+        addressLocality: siteConfig.addressLocality,
+        postalCode: siteConfig.postalCode,
+        addressCountry: 'IN',
+      },
+      amenityFeature: [
+        {
+          '@type': 'LocationFeatureSpecification',
+          name: 'Air conditioning',
+          value: true,
+        },
+        {
+          '@type': 'LocationFeatureSpecification',
+          name: 'Dedicated parking on premises',
+          value: true,
+        },
+      ],
+    }
+  : null;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    {schemaData && (
+      <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+    )}
+  </head>
+  <body>
+    <!-- Rubber floor grain canvas -->
+    <canvas id="grain" aria-hidden="true"></canvas>
+
+    <Nav currentPath={currentPath} />
+    <MobileMenu currentPath={currentPath} />
+
+    <slot />
+
+    <Footer />
+
+    <script>
+      import { initGrain } from '../scripts/grain';
+      import { initNav } from '../scripts/nav';
+      import { initReveal } from '../scripts/reveal';
+      import { initCountUp } from '../scripts/countup';
+
+      initGrain();
+      initNav();
+      initReveal();
+      initCountUp();
+    </script>
+  </body>
+</html>

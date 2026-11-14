@@ -1,0 +1,204 @@
+---
+import { plans } from '../../data/plans';
+import Button from '../Button.astro';
+---
+
+<section class="plans-section" aria-label="Membership plans">
+  <div class="container">
+    <div class="tiers-grid">
+      {
+        plans.map((plan) => (
+          <div
+            class:list={['tier', 'plan-card', { best: plan.isBestValue }]}
+            data-plan={plan.name}
+          >
+            {plan.isBestValue && <span class="tag">Best value</span>}
+
+            <div class="n">{plan.name}</div>
+            <div class="p">
+              {plan.price}
+              <small>{plan.suffix}</small>
+            </div>
+            <div class="pm">{plan.subline}</div>
+
+            <ul class="tier-features">
+              {plan.features.map((feat) => (
+                <li>{feat}</li>
+              ))}
+            </ul>
+
+            <div class="tier-btn-wrap">
+              <Button
+                href={`/?plan=${encodeURIComponent(plan.name)}#book`}
+                variant={plan.buttonVariant}
+                size="card"
+                arrow={plan.isBestValue}
+                data-choose-plan={plan.name}
+              >
+                {plan.buttonText}
+              </Button>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="sample-note">
+      Sample prices. Replace with AlphaPro's actual pricing.
+    </p>
+  </div>
+</section>
+
+<style>
+  .plans-section {
+    padding: 70px 0 120px;
+    background: transparent;
+  }
+
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .tier {
+    border: 1px solid var(--line);
+    background: var(--surf);
+    padding: 30px 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tier:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .tier.best {
+    border-color: var(--lime);
+  }
+
+  .tier.best:hover {
+    border-color: var(--lime);
+  }
+
+  .tag {
+    position: absolute;
+    top: -1px;
+    right: 20px;
+    background: var(--lime);
+    color: #111111;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    font-weight: 700;
+  }
+
+  .n {
+    font-size: 15px;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .p {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 42px;
+    margin-top: 18px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .p small {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--mute);
+    font-stretch: 100%;
+    margin-left: 4px;
+  }
+
+  .pm {
+    font-size: 13px;
+    color: var(--mute);
+    margin-top: 8px;
+  }
+
+  .tier-features {
+    list-style: none;
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+    font-size: 14px;
+    color: #d0d0cb;
+    flex-grow: 1;
+  }
+
+  .tier-features li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .tier-features li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--steel);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .tier-btn-wrap {
+    margin-top: 28px;
+  }
+
+  .tier-btn-wrap :global(.btn) {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tier-btn-wrap :global(.btn-outline) {
+    background: var(--iron);
+  }
+
+  .tier-btn-wrap :global(.btn-outline:hover) {
+    background: #323438;
+  }
+
+  .sample-note {
+    font-size: 12px;
+    color: #66665f;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 960px) {
+    .tiers-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .plans-section {
+      padding: 40px 0 80px;
+    }
+
+    .tiers-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .tier {
+      padding: 24px 22px;
+    }
+
+    .p {
+      font-size: 34px;
+    }
+  }
+</style>

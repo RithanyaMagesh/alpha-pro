@@ -1,0 +1,137 @@
+---
+import { siteConfig } from '../data/site';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+
+function isActive(href: string): boolean {
+  if (href === '/' && currentPath === '/') return true;
+  if (href !== '/' && currentPath.startsWith(href)) return true;
+  return false;
+}
+---
+
+<div
+  class="sheet"
+  id="sheet"
+  hidden
+  aria-label="Mobile Navigation Menu"
+  role="dialog"
+  aria-modal="true"
+>
+  <button
+    type="button"
+    class="sheet-close"
+    id="sheet-close"
+    aria-label="Close menu"
+  >
+    ✕
+  </button>
+
+  <nav class="sheet-nav">
+    {
+      siteConfig.navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['sheet-link', { on: isActive(link.href) }]}
+          aria-current={isActive(link.href) ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="sh-c">
+    <span>Call or WhatsApp</span>
+    <a href={`tel:${siteConfig.phoneTel}`} class="sh-phone">
+      <b>{siteConfig.phoneDisplay}</b>
+    </a>
+  </div>
+</div>
+
+<style>
+  .sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: #141415;
+    padding: calc(90px + env(safe-area-inset-top, 0px)) 24px
+      calc(40px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .sheet-close {
+    position: absolute;
+    top: calc(20px + env(safe-area-inset-top, 0px));
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  .sheet-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sheet-link {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 34px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink);
+    padding: 6px 0;
+    transition: color 0.2s ease;
+  }
+
+  .sheet-link.on {
+    color: var(--lime);
+  }
+
+  .sh-c {
+    margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+
+  .sh-c span {
+    display: block;
+    color: var(--mute);
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+
+  .sh-phone {
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .sh-phone b {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--lime);
+  }
+
+  @media (min-width: 641px) {
+    .sheet {
+      display: none !important;
+    }
+  }
+</style>

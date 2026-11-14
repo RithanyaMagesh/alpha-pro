@@ -1,0 +1,643 @@
+---
+import { Image } from 'astro:assets';
+import { programs } from '../../data/programs';
+
+// Import all 8 program photos
+import strengthImg from '../../assets/photos/strength.jpg';
+import personalImg from '../../assets/photos/personal.jpg';
+import crossfitImg from '../../assets/photos/crossfit.jpg';
+import bodybuildingImg from '../../assets/photos/bodybuilding.jpg';
+import weightImg from '../../assets/photos/weight.jpg';
+import nutritionImg from '../../assets/photos/nutrition.jpg';
+import cardioImg from '../../assets/photos/cardio.jpg';
+import aerobicsImg from '../../assets/photos/aerobics.jpg';
+
+const photoMap: Record<string, ImageMetadata> = {
+  strength: strengthImg,
+  personal: personalImg,
+  crossfit: crossfitImg,
+  bodybuilding: bodybuildingImg,
+  weight: weightImg,
+  nutrition: nutritionImg,
+  cardio: cardioImg,
+  aerobics: aerobicsImg,
+};
+
+// Default selected is index 2 (Crossfit)
+const defaultIndex = 2;
+const defaultProg = programs[defaultIndex]!;
+---
+
+<section class="wheel-section" id="programs" aria-labelledby="wheel-heading">
+  <div class="container wheel-grid">
+    <!-- Left Column -->
+    <div class="wheel-col wheel-left">
+      <span class="section-label">Spin the wheel or pick one below</span>
+      <h2 id="wheel-heading" class="section-h2">8 WAYS TO TRAIN.</h2>
+      <p class="wheel-intro">
+        Eight ways to train on one floor. Scroll or drag the wheel. Tell a coach
+        your goal and they'll put you on the right one.
+      </p>
+      <div class="pbar" id="w-bar" aria-label="Program progress indicator">
+        <!-- populated by wheel.ts -->
+      </div>
+    </div>
+
+    <!-- Centre Column (Dial) -->
+    <div
+      class="wheel-col dial"
+      id="dial"
+      tabindex="0"
+      role="group"
+      aria-label="Program wheel. Use arrow keys to spin."
+    >
+      <div class="marker" aria-hidden="true"></div>
+      <div class="ring" id="ring" aria-hidden="true">
+        <!-- 72 ticks & 8 labels populated by wheel.ts -->
+      </div>
+      <div class="photo" id="w-photo">
+        {
+          programs.map((prog, i) => (
+            <Image
+              src={photoMap[prog.photo]!}
+              alt={prog.name}
+              class:list={['bw-photo', 'wheel-photo-img', { on: i === defaultIndex }]}
+              width={560}
+              height={560}
+              format="webp"
+              loading="lazy"
+            />
+          ))
+        }
+      </div>
+      <div class="spin" aria-hidden="true">↻ &nbsp;Scroll to spin</div>
+    </div>
+
+    <!-- Right Column (Details) -->
+    <div class="wheel-col wheel-right">
+      <div class="idx" id="w-idx">03 / 08</div>
+      <h3 class="prog-title" id="w-name">{defaultProg.name}</h3>
+      <p class="prog-desc" id="w-desc">{defaultProg.description}</p>
+      <div class="prog-tags" id="w-tags">
+        {defaultProg.tags.map((tag) => <span>{tag}</span>)}
+      </div>
+      <div class="prog-ctl">
+        <button
+          type="button"
+          class="circ"
+          id="w-prev"
+          aria-label="Previous program"
+        >
+          <svg
+            class="arr"
+            style="transform: scaleX(-1)"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 12h15M13 6l6 6-6 6"></path>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="circ on"
+          id="w-next"
+          aria-label="Next program"
+        >
+          <svg
+            class="arr"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 12h15M13 6l6 6-6 6"></path>
+          </svg>
+        </button>
+        <a href="#book" class="try-link" data-try>
+          Try it free
+          <svg
+            class="arr"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M4 12h15M13 6l6 6-6 6"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Photo Tiles -->
+  <div class="container">
+    <div class="pstrip wheel-strip" id="w-strip" role="tablist" aria-label="Programs list">
+      {
+        programs.map((prog, i) => (
+          <button
+            type="button"
+            class:list={['pt', 'program-tile', { on: i === defaultIndex }]}
+            role="tab"
+            aria-selected={i === defaultIndex ? 'true' : 'false'}
+            aria-label={prog.name}
+          >
+            <Image
+              src={photoMap[prog.photo]!}
+              alt=""
+              class="bw-photo"
+              width={200}
+              height={150}
+              format="webp"
+              loading="lazy"
+            />
+            <span>{prog.name}</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .wheel-section {
+    position: relative;
+    padding: 130px 0 120px;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .wheel-grid {
+    display: grid;
+    grid-template-columns: 1fr 560px 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .wheel-intro {
+    color: var(--mute);
+    margin-top: 20px;
+    max-width: 30ch;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* Progress bar */
+  :global(.pbar) {
+    display: flex;
+    gap: 6px;
+    margin-top: 44px;
+    align-items: center;
+  }
+
+  :global(.pbar button) {
+    width: 28px;
+    height: 14px;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  :global(.pbar button i) {
+    display: block;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    transition: background-color 0.3s ease;
+  }
+
+  :global(.pbar button.d i) {
+    background: var(--lime);
+  }
+
+  :global(.pbar .pbar-counter) {
+    white-space: nowrap;
+    margin-left: 12px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    color: var(--steel);
+  }
+
+  /* Dial */
+  .dial {
+    --d: 560px;
+    position: relative;
+    width: var(--d);
+    height: var(--d);
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+    outline: none;
+  }
+
+  .dial.drag {
+    cursor: grabbing;
+  }
+
+  .dial:focus-visible :global(.ring) {
+    border-color: var(--lime);
+  }
+
+  :global(.ring) {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    transform: rotate(-90deg);
+    transition: transform 0.9s cubic-bezier(0.3, 0.8, 0.2, 1);
+  }
+
+  :global(.dial.drag .ring) {
+    transition: none !important;
+  }
+
+  :global(.ring .t) {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.22);
+    transform-origin: 0 calc(var(--d) / 2);
+  }
+
+  :global(.ring .t.m) {
+    height: 18px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  :global(.ring .nm) {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    height: calc(var(--d) / 2);
+    transform-origin: 50% 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  :global(.ring .nm span) {
+    display: block;
+    transform: translateY(-30px);
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    color: var(--steel);
+    transition: transform 0.9s cubic-bezier(0.3, 0.8, 0.2, 1),
+      color 0.3s ease;
+  }
+
+  :global(.dial.drag .ring .nm span) {
+    transition: color 0.3s ease !important;
+  }
+
+  :global(.ring .nm:hover span) {
+    color: var(--ink);
+  }
+
+  :global(.ring .nm.on span) {
+    color: var(--lime);
+    font-weight: 700;
+  }
+
+  .marker {
+    position: absolute;
+    left: 50%;
+    top: -8px;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    background: var(--lime);
+    transform: rotate(45deg);
+    border-radius: 2px;
+    z-index: 3;
+  }
+
+  .spin {
+    position: absolute;
+    left: 50%;
+    bottom: -74px;
+    transform: translateX(-50%);
+    font-size: 13px;
+    color: var(--steel);
+    white-space: nowrap;
+  }
+
+  .photo {
+    position: absolute;
+    inset: 9%;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--line), 0 40px 80px -30px #000;
+  }
+
+  .photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      transparent 55%,
+      rgba(0, 0, 0, 0.55)
+    );
+    pointer-events: none;
+  }
+
+  .wheel-photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: opacity 0.7s ease,
+      transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .wheel-photo-img.on {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Right column */
+  .wheel-right {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .wheel-right.out {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .idx {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--steel);
+  }
+
+  .prog-title {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 46px;
+    line-height: 1;
+    margin-top: 14px;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .prog-desc {
+    color: var(--mute);
+    margin-top: 18px;
+    max-width: 32ch;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .prog-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+  }
+
+  .prog-tags span {
+    font-size: 13px;
+    border: 1px solid var(--line);
+    padding: 7px 12px;
+    color: #cfcfca;
+  }
+
+  .prog-ctl {
+    display: flex;
+    gap: 10px;
+    margin-top: 34px;
+    align-items: center;
+  }
+
+  .circ {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+    cursor: pointer;
+    background: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .circ:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+
+  .circ.on {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+
+  .arr {
+    width: 16px;
+    height: 16px;
+  }
+
+  .try-link {
+    margin-left: 14px;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    transition: color 0.2s ease;
+  }
+
+  .try-link:hover {
+    color: var(--lime);
+  }
+
+  /* Bottom Tiles Row */
+  .pstrip {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    margin-top: 90px;
+  }
+
+  .pt {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+    background: var(--surf);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .pt:hover {
+    transform: translateY(-4px);
+  }
+
+  .pt img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+    transition: opacity 0.3s ease;
+  }
+
+  .pt:hover img {
+    opacity: 0.8;
+  }
+
+  .pt::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(14, 14, 14, 0.95), transparent 70%);
+  }
+
+  .pt span {
+    position: absolute;
+    z-index: 2;
+    left: 12px;
+    right: 12px;
+    bottom: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--body);
+  }
+
+  .pt.on {
+    border-color: var(--lime);
+  }
+
+  .pt.on img {
+    opacity: 0.9;
+  }
+
+  .pt.on span {
+    color: var(--lime);
+  }
+
+  @media (max-width: 900px) {
+    .wheel-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+      justify-items: center;
+    }
+    .prog-ctl {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .wheel-section {
+      padding: 80px 0;
+    }
+
+    .wheel-grid {
+      grid-template-columns: 1fr;
+      gap: 84px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .wheel-intro,
+    :global(.pbar) {
+      display: none;
+    }
+
+    .dial {
+      --d: min(78vw, 320px);
+    }
+
+    :global(.ring .nm span) {
+      font-size: 9px;
+      letter-spacing: 0.02em;
+      transform: translateY(-20px);
+    }
+
+    .spin {
+      bottom: -62px;
+    }
+
+    .wheel-right {
+      display: grid;
+      justify-items: center;
+    }
+
+    .prog-title {
+      font-size: 30px;
+    }
+
+    .prog-desc {
+      font-size: 14.5px;
+    }
+
+    .prog-tags {
+      justify-content: center;
+    }
+
+    .pstrip {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 8px;
+      padding-bottom: 6px;
+      margin-top: 40px;
+      scrollbar-width: none;
+    }
+
+    .pstrip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .pt {
+      flex: 0 0 120px;
+      height: 110px;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pt,
+    .circ,
+    :global(.ring),
+    :global(.ring .nm span),
+    .wheel-photo-img {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

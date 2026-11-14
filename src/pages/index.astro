@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import FeatureStrip from '../components/FeatureStrip.astro';
+import AboutTeaser from '../components/home/AboutTeaser.astro';
+import ProgramWheel from '../components/home/ProgramWheel.astro';
+import SixtyMinutes from '../components/home/SixtyMinutes.astro';
+import PlansTeaser from '../components/home/PlansTeaser.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Contact from '../components/home/Contact.astro';
+import { siteConfig } from '../data/site';
+---
+
+<Base
+  title={siteConfig.seo.home.title}
+  description={siteConfig.seo.home.description}
+  currentPath="/"
+  isHome={true}
+>
+  <main>
+    <Hero />
+    <FeatureStrip />
+    <AboutTeaser />
+    <ProgramWheel />
+    <SixtyMinutes />
+    <PlansTeaser />
+    <CtaBand titleTop="READY TO" titleBottom="EVOLVE?" />
+    <Contact />
+  </main>
+
+  <script>
+    import { initWheel } from '../scripts/wheel';
+    import { initLed } from '../scripts/led';
+    import { initBooking } from '../scripts/booking';
+
+    initWheel();
+    initLed();
+    initBooking();
+  </script>
+</Base>

@@ -1,0 +1,139 @@
+---
+interface Props {
+  variant?: 'primary' | 'outline';
+  size?: 'default' | 'nav' | 'card';
+  href?: string;
+  arrow?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  id?: string;
+  [key: string]: any;
+}
+
+const {
+  variant = 'primary',
+  size = 'default',
+  href,
+  arrow = false,
+  type = 'button',
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={!href ? type : undefined}
+  class:list={['btn', `btn-${variant}`, `btn-${size}`, className]}
+  {...rest}
+>
+  <slot />
+  {
+    arrow && (
+      <svg
+        class="btn-arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4 12h15M13 6l6 6-6 6" />
+      </svg>
+    )
+  }
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 54px;
+    padding: 0 28px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 70%,
+      calc(100% - 14px) 100%,
+      0 100%
+    );
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+      filter 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-color 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .btn:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+  }
+
+  .btn-primary {
+    background: var(--lime);
+    color: #111111;
+  }
+
+  .btn-outline {
+    background: var(--surf);
+    color: var(--ink);
+  }
+
+  .btn-outline:hover {
+    background: #2a2b2e;
+  }
+
+  .btn-nav {
+    height: 44px;
+    padding: 0 22px;
+    font-size: 14px;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 70%,
+      calc(100% - 12px) 100%,
+      0 100%
+    );
+  }
+
+  .btn-card {
+    height: 46px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+
+  .btn-arrow {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .btn:hover .btn-arrow {
+    transform: translateX(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn,
+    .btn-arrow {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

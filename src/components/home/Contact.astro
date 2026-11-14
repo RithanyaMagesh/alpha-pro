@@ -1,0 +1,220 @@
+---
+import { siteConfig } from '../../data/site';
+---
+
+<section class="contact-section" id="contact" aria-labelledby="contact-h2">
+  <div class="container">
+    <h2 id="contact-h2" class="section-h2">COME SAY HI</h2>
+
+    <div class="contact-grid">
+      <div class="contact-col cinfo">
+        <div class="cinfo-item address-item">
+          <span>Address</span>
+          <b>
+            {siteConfig.addressLines[0]}<br />
+            {siteConfig.addressLines[1]}
+          </b>
+        </div>
+
+        <div class="cinfo-item">
+          <span>Call or WhatsApp</span>
+          <a href={`tel:${siteConfig.phoneTel}`} class="phone-link">
+            <b class="big">{siteConfig.phoneDisplay}</b>
+          </a>
+        </div>
+
+        <div class="cinfo-item">
+          <span>Parking</span>
+          <b>{siteConfig.parking}</b>
+        </div>
+      </div>
+
+      <div class="contact-col map-panel" aria-label="Location map preview">
+        <svg
+          class="map-svg"
+          viewBox="0 0 600 360"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
+          <g stroke="#262626" stroke-width="10" fill="none">
+            <path d="M-20 90 L620 60"></path>
+            <path d="M-20 250 L620 290"></path>
+            <path d="M180 -20 L230 380"></path>
+            <path d="M430 -20 L390 380"></path>
+          </g>
+          <g stroke="#1b1b1b" stroke-width="4" fill="none">
+            <path d="M-20 170 L620 175"></path>
+            <path d="M80 -20 L110 380"></path>
+            <path d="M310 -20 L320 380"></path>
+            <path d="M520 -20 L500 380"></path>
+            <path d="M-20 330 L620 320"></path>
+          </g>
+          <path
+            d="M230 175 L320 172 L325 120"
+            stroke="var(--lime)"
+            stroke-width="3"
+            fill="none"
+            stroke-dasharray="6 6"
+          ></path>
+        </svg>
+
+        <div class="pin" aria-hidden="true">
+          <span>ALPHA PRO FITNESS</span>
+          <i></i>
+        </div>
+
+        <a
+          class="dir"
+          href={siteConfig.mapsUrl}
+          target="_blank"
+          rel="noopener"
+        >
+          Directions on Google Maps ↗
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    padding: 110px 0 90px;
+    background: transparent;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    margin-top: 40px;
+  }
+
+  .cinfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 40px;
+  }
+
+  .address-item {
+    grid-column: 1 / -1;
+  }
+
+  .cinfo-item span {
+    display: block;
+    font-size: 13px;
+    color: var(--mute);
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .cinfo-item b {
+    display: block;
+    font-weight: 500;
+    font-size: 17px;
+    margin-top: 8px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .cinfo-item b.big {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--ink);
+  }
+
+  .phone-link {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+  }
+
+  .phone-link:hover b.big {
+    color: var(--lime);
+  }
+
+  /* Map Panel */
+  .map-panel {
+    position: relative;
+    height: 360px;
+    border: 1px solid var(--line);
+    background: var(--surf);
+    overflow: hidden;
+  }
+
+  .map-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .pin {
+    position: absolute;
+    left: 54%;
+    top: 46%;
+    transform: translate(-50%, -100%);
+    display: grid;
+    justify-items: center;
+    pointer-events: none;
+  }
+
+  .pin i {
+    width: 20px;
+    height: 20px;
+    background: var(--lime);
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+
+  .pin span {
+    margin-bottom: 22px;
+    background: var(--lime);
+    color: #0a0a0a;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 8px 12px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .dir {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    font-size: 13px;
+    color: var(--ink);
+    background: #070707;
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .dir:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+
+  @media (max-width: 640px) {
+    .contact-section {
+      padding: 80px 0 60px;
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin-top: 24px;
+    }
+
+    .cinfo {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+
+    .map-panel {
+      height: 260px;
+    }
+  }
+</style>

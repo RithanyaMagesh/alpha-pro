@@ -1,0 +1,120 @@
+---
+import { coaches } from '../../data/coaches';
+import CoachCard from './CoachCard.astro';
+---
+
+<section class="team-section" id="team" aria-labelledby="team-h2">
+  <div class="container">
+    <div class="team-head">
+      <div>
+        <span class="section-label">The coaches</span>
+        <h2 id="team-h2" class="section-h2">MEET THE TEAM.</h2>
+      </div>
+
+      <span class="hint" aria-hidden="true">
+        <i></i>
+        <span class="dk">Hover a coach to see their certifications</span>
+        <span class="mb">Tap a coach to see their certifications</span>
+      </span>
+    </div>
+
+    <div class="coaches-grid">
+      {coaches.map((coach) => <CoachCard coach={coach} />)}
+    </div>
+
+    <p class="ph-note">
+      Names, photos and certifications are placeholders until AlphaPro shares the real team.
+    </p>
+  </div>
+</section>
+
+<style>
+  .team-section {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .team-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+
+  .hint {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+    color: var(--mute);
+  }
+
+  .hint i {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--lime);
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .hint i::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 5px;
+    height: 5px;
+    background: var(--lime);
+    border-radius: 50%;
+  }
+
+  .hint .mb {
+    display: none;
+  }
+
+  .coaches-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 44px;
+  }
+
+  .ph-note {
+    font-size: 12px;
+    color: #6b6d70;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .coaches-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .team-section {
+      padding: 70px 0;
+    }
+
+    .team-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .hint .dk {
+      display: none;
+    }
+
+    .hint .mb {
+      display: inline;
+    }
+
+    .coaches-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 28px;
+    }
+  }
+</style>

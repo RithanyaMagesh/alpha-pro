@@ -1,0 +1,448 @@
+---
+import { programs } from '../../data/programs';
+import Button from '../Button.astro';
+
+const stepItems = [
+  {
+    time: '00 – 10 MIN',
+    title: 'Walk the floor',
+    desc: 'See the 4,500 sq.ft, the kit and the A/C for yourself.',
+  },
+  {
+    time: '10 – 20 MIN',
+    title: 'Goal chat with a coach',
+    desc: 'What you want, what’s held you back, what fits your week.',
+  },
+  {
+    time: '20 – 50 MIN',
+    title: 'Your first coached workout',
+    desc: 'Form first. Weight later. Every set watched.',
+  },
+  {
+    time: '50 – 60 MIN',
+    title: 'A plan you take home',
+    desc: 'Program, plan and price. No pressure to sign.',
+  },
+];
+---
+
+<section class="sixty-section" id="sixty" aria-labelledby="sixty-h2">
+  <div class="container">
+    <span class="section-label">Your first hour is on us</span>
+
+    <div class="sixty-top">
+      <div class="led" id="led" aria-label="60-minute countdown clock">
+        <div class="ghost" aria-hidden="true">88:88</div>
+        <div class="lit" id="led-t">60:00</div>
+        <span class="led-tag" aria-hidden="true">GO</span>
+      </div>
+
+      <div class="sixty-copy">
+        <h2 id="sixty-h2" class="section-h2 sixty-h2">GIVE US 60 MINUTES.</h2>
+        <p class="sixty-lead">
+          We'll prove why we're the best gym in Lingadheeranahalli. One free hour
+          with a certified coach. Walk out convinced, or walk out owing nothing.
+        </p>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps" aria-label="How your 60 minutes work">
+      {
+        stepItems.map((step) => (
+          <div class="st step-item">
+            <div class="tm">{step.time}</div>
+            <h4 class="st-title">{step.title}</h4>
+            <p class="st-desc">{step.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Booking Form Panel -->
+    <form class="book booking-form" id="book" novalidate aria-label="Book your free 60 minutes">
+      <div class="fl">
+        <label for="b-name">Name</label>
+        <input
+          id="b-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          placeholder="Your name"
+          required
+        />
+      </div>
+
+      <div class="fl">
+        <label for="b-phone">Phone</label>
+        <input
+          id="b-phone"
+          name="phone"
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="10-digit mobile"
+          required
+        />
+      </div>
+
+      <div class="fl">
+        <label for="b-prog">Program</label>
+        <select id="b-prog" name="program">
+          {
+            programs.map((p) => (
+              <option value={p.name} selected={p.name === 'Crossfit'}>
+                {p.name}
+              </option>
+            ))
+          }
+          <option value="Not sure yet">Not sure yet</option>
+        </select>
+      </div>
+
+      <Button type="submit" variant="primary" size="default" arrow>
+        Book my 60 minutes
+      </Button>
+
+      <p class="bk-plan" id="bk-plan" hidden></p>
+      <p class="bk-err" id="bk-err" role="alert" aria-live="assertive" hidden></p>
+
+      <div class="bk-ok" id="bk-ok" role="status" aria-live="polite" hidden>
+        <b>You're booked in.</b>
+        <span id="bk-ok-t"></span>
+        <a id="bk-wa" class="wa-continue" target="_blank" rel="noopener">
+          Continue on WhatsApp &rarr;
+        </a>
+        <button type="button" class="btn btn-outline btn-card" id="bk-again">
+          Book another
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .sixty-section {
+    position: relative;
+    background: transparent;
+    border-block: 1px solid var(--line);
+    overflow: hidden;
+    padding: 120px 0;
+  }
+
+  .sixty-top {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 70px;
+    align-items: center;
+    margin-top: 34px;
+  }
+
+  .sixty-h2 {
+    font-size: 40px;
+    margin-top: 0;
+  }
+
+  .sixty-lead {
+    color: var(--mute);
+    margin-top: 18px;
+    max-width: 46ch;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* LED Clock */
+  .led {
+    position: relative;
+    background: #0b0b0b;
+    border: 10px solid var(--surf);
+    border-radius: 10px;
+    padding: 28px 40px 22px;
+    box-shadow: inset 0 0 0 1px #000, 0 30px 60px -30px #000;
+  }
+
+  .led .ghost,
+  .led .lit {
+    font-family: 'DSEG7', monospace;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 150px;
+    line-height: 1;
+  }
+
+  .led .ghost {
+    color: var(--led-off);
+  }
+
+  .led .lit {
+    position: absolute;
+    left: 40px;
+    top: 28px;
+    color: var(--lime);
+    text-shadow: 0 0 16px rgba(184, 241, 60, 0.35);
+    transition: text-shadow 0.3s ease;
+  }
+
+  .led.tick .lit {
+    text-shadow: 0 0 22px rgba(184, 241, 60, 0.6);
+  }
+
+  .led-tag {
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--lime);
+    letter-spacing: 0.1em;
+  }
+
+  /* Steps */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 80px;
+    border-top: 1px solid var(--line);
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: var(--sp, 0%);
+    height: 3px;
+    background: var(--lime);
+    transition: width 0.2s linear;
+  }
+
+  .st {
+    padding: 28px 28px 0 0;
+  }
+
+  .st + .st {
+    padding-left: 28px;
+    border-left: 1px solid var(--line);
+  }
+
+  .st .tm {
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--lime);
+    font-weight: 700;
+  }
+
+  .st-title {
+    font-family: 'Archivo Variable', Archivo, sans-serif;
+    font-stretch: 125%;
+    font-weight: 750;
+    font-size: 21px;
+    margin-top: 12px;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .st-desc {
+    color: var(--mute);
+    font-size: 14.5px;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  /* Booking Form */
+  .book {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 14px;
+    margin-top: 70px;
+    padding: 30px;
+    background: var(--surf);
+    border: 1px solid var(--line);
+    position: relative;
+    align-items: end;
+  }
+
+  .book::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--lime);
+  }
+
+  .book.flash {
+    animation: flash 1.2s;
+  }
+
+  @keyframes flash {
+    30% {
+      box-shadow: 0 0 0 2px var(--lime);
+    }
+  }
+
+  .fl {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fl label {
+    display: block;
+    font-size: 13px;
+    color: var(--mute);
+    margin-bottom: 8px;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .fl input,
+  .fl select {
+    width: 100%;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: #161617;
+    color: var(--ink);
+    padding: 0 16px;
+    font-family: inherit;
+    font-size: 15px;
+    border-radius: 0;
+    appearance: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .fl select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--lime) 50%),
+      linear-gradient(-45deg, transparent 50%, var(--lime) 50%);
+    background-position: calc(100% - 20px) 22px, calc(100% - 14px) 22px;
+    background-size: 6px 6px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+  }
+
+  .fl input:focus,
+  .fl select:focus {
+    border-color: var(--lime);
+    outline: none;
+  }
+
+  .fl input[aria-invalid='true'] {
+    border-color: var(--error);
+  }
+
+  .bk-plan,
+  .bk-err {
+    grid-column: 1 / -1;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .bk-plan {
+    color: var(--lime);
+  }
+
+  .bk-err {
+    color: var(--error);
+  }
+
+  .bk-ok {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+    font-size: 15px;
+  }
+
+  .bk-ok b {
+    color: var(--lime);
+    font-size: 18px;
+  }
+
+  .bk-ok span {
+    color: #cfd0cc;
+    flex: 1 1 300px;
+  }
+
+  .wa-continue {
+    color: var(--lime);
+    font-weight: 600;
+    text-decoration: underline;
+    margin-right: 12px;
+  }
+
+  .book.done .fl,
+  .book.done > :global(.btn),
+  .book.done .bk-plan {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .sixty-section {
+      padding: 80px 0;
+    }
+
+    .sixty-top {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+
+    .sixty-h2 {
+      font-size: 27px;
+    }
+
+    .led {
+      padding: 16px 18px 12px;
+      border-width: 7px;
+    }
+
+    .led .ghost,
+    .led .lit {
+      font-size: 19vw;
+    }
+
+    .led .lit {
+      left: 18px;
+      top: 16px;
+    }
+
+    .steps {
+      grid-template-columns: 1fr;
+      margin-top: 44px;
+      border-top: none;
+      border-left: 1px solid var(--line);
+    }
+
+    .steps::before {
+      width: 3px !important;
+      height: var(--sp, 0%) !important;
+      left: -1px;
+      top: 0;
+    }
+
+    .st,
+    .st + .st {
+      padding: 0 0 26px 22px;
+      border-left: none;
+    }
+
+    .book {
+      grid-template-columns: 1fr;
+      margin-top: 30px;
+      padding: 22px;
+    }
+
+    .book :global(.btn) {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .steps::before,
+    .led .lit {
+      transition: none !important;
+    }
+  }
+</style>

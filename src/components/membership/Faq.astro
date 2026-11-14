@@ -1,0 +1,162 @@
+---
+import { faqs } from '../../data/faq';
+import { siteConfig } from '../../data/site';
+---
+
+<section class="faq-section" aria-labelledby="faq-h2">
+  <div class="container faq-wrap">
+    <div class="faq-intro">
+      <span class="section-label">Front desk</span>
+      <h2 id="faq-h2" class="section-h2">QUESTIONS.</h2>
+      <p class="faq-sub">
+        Anything else, call or WhatsApp{' '}
+        <a href={`tel:${siteConfig.phoneTel}`} class="faq-tel">
+          {siteConfig.phoneDisplay}
+        </a>
+        .
+      </p>
+    </div>
+
+    <div class="faq-list">
+      {
+        faqs.map((item) => (
+          <div class:list={['faq-item', { open: item.isOpenDefault }]}>
+            <button
+              type="button"
+              class="faq-header"
+              aria-expanded={item.isOpenDefault ? 'true' : 'false'}
+              aria-controls={`faq-ans-${item.id}`}
+            >
+              <span>{item.question}</span>
+              <i aria-hidden="true">+</i>
+            </button>
+            <div class="faq-answer" id={`faq-ans-${item.id}`}>
+              <p>{item.answer}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding: 110px 0;
+    background: transparent;
+  }
+
+  .faq-wrap {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 80px;
+  }
+
+  .faq-sub {
+    color: var(--mute);
+    margin-top: 16px;
+    font-size: 16px;
+  }
+
+  .faq-tel {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .faq-tel:hover {
+    color: var(--lime);
+  }
+
+  .faq-item {
+    border-top: 1px solid var(--line);
+  }
+
+  .faq-item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    padding: 24px 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+
+  .faq-header i {
+    font-style: normal;
+    color: var(--lime);
+    font-size: 24px;
+    line-height: 1;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .faq-item.open .faq-header i {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s ease;
+  }
+
+  .faq-answer > p {
+    overflow: hidden;
+    margin: 0;
+    color: var(--mute);
+    max-width: 60ch;
+    font-size: 15.5px;
+    line-height: 1.6;
+  }
+
+  .faq-item.open .faq-answer {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item.open .faq-answer > p {
+    padding-bottom: 24px;
+  }
+
+  @media (max-width: 900px) {
+    .faq-wrap {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .faq-section {
+      padding: 70px 0;
+    }
+
+    .faq-wrap {
+      gap: 20px;
+    }
+
+    .faq-header {
+      font-size: 16px;
+      padding: 20px 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-header i,
+    .faq-answer {
+      transition: none !important;
+    }
+  }
+</style>

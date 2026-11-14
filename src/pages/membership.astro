@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import MemHero from '../components/membership/MemHero.astro';
+import PlanCards from '../components/membership/PlanCards.astro';
+import CompareTable from '../components/membership/CompareTable.astro';
+import MiniSixty from '../components/membership/MiniSixty.astro';
+import Gallery from '../components/membership/Gallery.astro';
+import Faq from '../components/membership/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { siteConfig } from '../data/site';
+---
+
+<Base
+  title={siteConfig.seo.membership.title}
+  description={siteConfig.seo.membership.description}
+  currentPath="/membership"
+>
+  <main>
+    <MemHero />
+    <PlanCards />
+    <CompareTable />
+    <MiniSixty />
+    <Gallery />
+    <Faq />
+    <CtaBand titleTop="READY TO" titleBottom="START?" />
+  </main>
+
+  <script>
+    import { initLed } from '../scripts/led';
+    import { initFaq } from '../scripts/faq';
+    import { initLightbox } from '../scripts/lightbox';
+
+    initLed();
+    initFaq();
+    initLightbox();
+  </script>
+</Base>
