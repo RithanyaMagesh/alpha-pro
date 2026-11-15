@@ -255,6 +255,7 @@ const COLUMN_COUNT = 12;
 
   const revealSite = () => {
     root.classList.remove('is-loading');
+    document.dispatchEvent(new Event('alpha:reveal'));
   };
 
   if (!preloader) {
