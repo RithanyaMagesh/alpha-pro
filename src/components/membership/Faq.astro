@@ -9,8 +9,13 @@ import { siteConfig } from '../../data/site';
       <span class="section-label">Front desk</span>
       <h2 id="faq-h2" class="section-h2">QUESTIONS.</h2>
       <p class="faq-sub">
-        Anything else, call or WhatsApp{' '}
-        <a href={`tel:${siteConfig.phoneTel}`} class="faq-tel">
+        Anything else, WhatsApp us on{' '}
+        <a
+          href={siteConfig.whatsAppUrl}
+          target="_blank"
+          rel="noopener"
+          class="faq-tel"
+        >
           {siteConfig.phoneDisplay}
         </a>
         .
@@ -42,14 +47,19 @@ import { siteConfig } from '../../data/site';
 
 <style>
   .faq-section {
-    padding: 110px 0;
+    padding-block: clamp(64px, 9vw, 130px);
     background: transparent;
   }
 
   .faq-wrap {
     display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 80px;
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 4vw, 80px);
+  }
+
+  .faq-intro,
+  .faq-list {
+    min-width: 0;
   }
 
   .faq-sub {
@@ -80,15 +90,16 @@ import { siteConfig } from '../../data/site';
 
   .faq-header {
     width: 100%;
+    min-height: 44px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     text-align: left;
-    font-size: 19px;
+    font-size: clamp(16px, 1.5vw, 19px);
     font-weight: 600;
     color: var(--ink);
-    padding: 24px 0;
+    padding: clamp(18px, 2vw, 24px) 0;
     cursor: pointer;
     background: none;
     border: none;
@@ -131,25 +142,9 @@ import { siteConfig } from '../../data/site';
     padding-bottom: 24px;
   }
 
-  @media (max-width: 900px) {
+  @media (min-width: 1024px) {
     .faq-wrap {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .faq-section {
-      padding: 70px 0;
-    }
-
-    .faq-wrap {
-      gap: 20px;
-    }
-
-    .faq-header {
-      font-size: 16px;
-      padding: 20px 0;
+      grid-template-columns: 380px 1fr;
     }
   }
 

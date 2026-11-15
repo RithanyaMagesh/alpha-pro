@@ -9,6 +9,16 @@
   src: url('/fonts/dseg7.woff2') format('woff2');
 }
 
+/*
+ * Mobile-first breakpoints used across the site:
+ * - base: 0–479px (small phones, tested down to 320px)
+ * - sm:  >= 480px (large phones)
+ * - md:  >= 768px (tablet portrait)
+ * - lg:  >= 1024px (tablet landscape / small laptop)
+ * - xl:  >= 1280px (laptop)
+ * - 2xl: >= 1600px (large desktop / 1920 / ultrawide)
+ */
+
 :root {
   --bg: #161616;
   --surf: #1e1f21;
@@ -23,6 +33,7 @@
   --lime: #b8f13c;
   --led-off: rgba(184, 241, 60, 0.07);
   --error: #ff8a80;
+  --gutter: clamp(16px, 4vw, 40px);
 
   color-scheme: dark;
 }
@@ -39,6 +50,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 96px;
   color: var(--ink);
+  overflow-x: clip;
 }
 
 body {
@@ -46,11 +58,11 @@ body {
   color: var(--body);
   font-family: 'Archivo Variable', Archivo, -apple-system, BlinkMacSystemFont,
     'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
+  font-size: clamp(15px, 1.05vw, 17px);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
   min-height: 100vh;
 }
 
@@ -80,6 +92,14 @@ textarea {
   color: inherit;
 }
 
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+  hyphens: manual;
+}
+
 /* Rubber floor grain canvas */
 #grain {
   position: fixed;
@@ -90,15 +110,26 @@ textarea {
   pointer-events: none;
 }
 
-/* Container */
+/* Container with fluid gutter + safe areas */
 .container {
-  width: min(1280px, 100% - 80px);
+  width: min(1280px, 100% - 2 * var(--gutter));
   margin-inline: auto;
+  padding-inline: max(0px, env(safe-area-inset-left, 0px))
+    max(0px, env(safe-area-inset-right, 0px));
 }
 
-@media (max-width: 640px) {
+@supports (padding: max(0px)) {
   .container {
-    width: calc(100% - 40px);
+    width: 100%;
+    max-width: calc(1280px + 2 * var(--gutter));
+    padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+  }
+
+  @media (min-width: 1600px) {
+    .container {
+      max-width: calc(1440px + 2 * var(--gutter));
+    }
   }
 }
 
@@ -112,23 +143,17 @@ textarea {
   letter-spacing: -0.005em;
   line-height: 0.95;
   text-wrap: balance;
+  hyphens: manual;
   color: var(--ink);
 }
 
 .section-label {
   display: block;
-  font-size: 15px;
+  font-size: clamp(13px, 1.2vw, 15px);
   font-weight: 500;
   color: var(--steel);
   line-height: 1.4;
-  margin-bottom: 14px;
-}
-
-@media (max-width: 640px) {
-  .section-label {
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
+  margin-bottom: 12px;
 }
 
 .section-h2 {
@@ -139,15 +164,10 @@ textarea {
   text-transform: uppercase;
   letter-spacing: -0.005em;
   line-height: 1;
-  font-size: 46px;
+  font-size: clamp(28px, 4.2vw, 50px);
   color: var(--ink);
   text-wrap: balance;
-}
-
-@media (max-width: 640px) {
-  .section-h2 {
-    font-size: 30px;
-  }
+  hyphens: manual;
 }
 
 /* Black & White Photo Filter */
@@ -183,6 +203,13 @@ textarea {
   font-variant-numeric: tabular-nums;
 }
 
+/* Prevent sticky bottom bar from covering footer on small phones */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 /* Animation utilities */
 @media (prefers-reduced-motion: no-preference) {
   .hero-rise {
@@ -200,14 +227,25 @@ textarea {
 
   .reveal-init {
     opacity: 0;
-    transform: translateY(26px);
+    transform: translateY(14px);
   }
 
   .reveal-active {
-    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
-      transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+      transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     opacity: 1;
     transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    .reveal-init {
+      transform: translateY(26px);
+    }
+
+    .reveal-active {
+      transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1),
+        transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
   }
 }
 

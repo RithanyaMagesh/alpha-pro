@@ -22,7 +22,7 @@
 <style>
   .phero {
     position: relative;
-    padding: 190px 0 60px;
+    padding: clamp(110px, 15vw, 190px) 0 clamp(44px, 6vw, 60px);
     overflow: hidden;
     border-bottom: 1px solid var(--line);
     background: transparent;
@@ -51,8 +51,12 @@
     grid-template-columns: 1fr;
   }
 
+  .phero-copy {
+    min-width: 0;
+  }
+
   .phero-h1 {
-    font-size: 96px;
+    font-size: clamp(44px, 10vw, 104px);
     line-height: 0.95;
     margin-top: 14px;
     color: var(--ink);
@@ -60,23 +64,9 @@
 
   .phero-sub {
     color: var(--body);
-    font-size: 19px;
+    font-size: clamp(16px, 1.4vw, 20px);
     margin-top: 26px;
     max-width: 42ch;
     line-height: 1.5;
-  }
-
-  @media (max-width: 640px) {
-    .phero {
-      padding: 110px 0 50px;
-    }
-
-    .phero-h1 {
-      font-size: 12.4vw;
-    }
-
-    .phero-sub {
-      font-size: 16px;
-    }
   }
 </style>

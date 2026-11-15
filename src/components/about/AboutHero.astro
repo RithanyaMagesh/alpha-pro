@@ -26,6 +26,8 @@ import floorImg from '../../assets/photos/floor.jpg';
         class="bw-photo phero-img"
         width={720}
         height={440}
+        widths={[480, 768, 1200]}
+        sizes="(min-width: 1024px) 45vw, 100vw"
         format="webp"
         loading="eager"
         fetchpriority="high"
@@ -37,7 +39,7 @@ import floorImg from '../../assets/photos/floor.jpg';
 <style>
   .phero {
     position: relative;
-    padding: 190px 0 90px;
+    padding: clamp(110px, 15vw, 190px) 0 clamp(50px, 7vw, 90px);
     overflow: hidden;
     border-bottom: 1px solid var(--line);
     background: transparent;
@@ -63,13 +65,18 @@ import floorImg from '../../assets/photos/floor.jpg';
     position: relative;
     z-index: 3;
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 60px;
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 4vw, 60px);
     align-items: end;
   }
 
+  .phero-copy,
+  .phero-ph {
+    min-width: 0;
+  }
+
   .phero-h1 {
-    font-size: 96px;
+    font-size: clamp(44px, 10vw, 104px);
     line-height: 0.95;
     margin-top: 14px;
     color: var(--ink);
@@ -77,7 +84,7 @@ import floorImg from '../../assets/photos/floor.jpg';
 
   .phero-sub {
     color: var(--body);
-    font-size: 19px;
+    font-size: clamp(16px, 1.4vw, 20px);
     margin-top: 26px;
     max-width: 36ch;
     line-height: 1.5;
@@ -85,9 +92,10 @@ import floorImg from '../../assets/photos/floor.jpg';
 
   .phero-ph {
     position: relative;
-    height: 440px;
+    aspect-ratio: 16 / 10;
+    width: 100%;
     overflow: hidden;
-    clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
   }
 
   .phero-img {
@@ -96,27 +104,14 @@ import floorImg from '../../assets/photos/floor.jpg';
     object-fit: cover;
   }
 
-  @media (max-width: 640px) {
-    .phero {
-      padding: 110px 0 50px;
-    }
-
+  @media (min-width: 1024px) {
     .phero-wrap {
-      grid-template-columns: 1fr;
-      gap: 30px;
-    }
-
-    .phero-h1 {
-      font-size: 12.4vw;
-    }
-
-    .phero-sub {
-      font-size: 16px;
+      grid-template-columns: 1.05fr 0.95fr;
     }
 
     .phero-ph {
-      height: 260px;
-      clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+      aspect-ratio: 720 / 440;
+      clip-path: polygon(14% 0, 100% 0, 100% 100%, 0 100%);
     }
   }
 </style>

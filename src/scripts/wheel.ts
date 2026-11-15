@@ -3,6 +3,7 @@ import { programs } from '../data/programs';
 export function initWheel(): void {
   const dial = document.getElementById('dial');
   const ring = document.getElementById('ring');
+  const labelsContainer = document.getElementById('w-labels');
   const photoContainer = document.getElementById('w-photo');
   const barContainer = document.getElementById('w-bar');
   const stripContainer = document.getElementById('w-strip');
@@ -15,7 +16,7 @@ export function initWheel(): void {
   const tryLink = document.querySelector('[data-try]');
   const rightCol = document.querySelector('.wheel-right');
 
-  if (!dial || !ring || !photoContainer || !barContainer || !stripContainer) {
+  if (!dial || !ring || !labelsContainer || !photoContainer || !barContainer || !stripContainer) {
     return;
   }
 
@@ -23,7 +24,9 @@ export function initWheel(): void {
   const N = programs.length;
   // Order matters, and default selected is index 2, Crossfit
   let cur = 2;
-  let rot = (-cur * 360) / N;
+  let currentRot = (-cur * 360) / N;
+  let targetRot = currentRot;
+  let rafId: number | null = null;
   let auto = true;
 
   // Render ticks inside ring
@@ -35,22 +38,34 @@ export function initWheel(): void {
     ring.appendChild(tick);
   }
 
-  // Render ring labels
+  // Render ring labels in separate non-rotating layer
+  labelsContainer.innerHTML = '';
   const labelButtons = programs.map((prog, i) => {
     const btn = document.createElement('button');
     btn.className = 'nm';
     btn.type = 'button';
-    btn.style.transform = `translateX(-50%) rotate(${(i * 360) / N}deg)`;
-    btn.innerHTML = `<span>${prog.shortName}</span>`;
+    btn.textContent = prog.shortName;
     btn.setAttribute('aria-label', prog.name);
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       stopAuto();
       setProgram(i);
     });
-    ring.appendChild(btn);
+    labelsContainer.appendChild(btn);
     return btn;
   });
+
+  let labelSizes = labelButtons.map((btn) => ({
+    w: btn.offsetWidth,
+    h: btn.offsetHeight,
+  }));
+
+  function measureLabels() {
+    labelSizes = labelButtons.map((btn) => ({
+      w: btn.offsetWidth,
+      h: btn.offsetHeight,
+    }));
+  }
 
   // Photo elements (already rendered or rendered via Astro/JS)
   const photoImgs = Array.from(photoContainer.querySelectorAll<HTMLImageElement>('img'));
@@ -88,21 +103,70 @@ export function initWheel(): void {
     auto = false;
   }
 
+  function stopAnimation() {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
   function paint() {
-    ring!.style.transform = `rotate(${rot}deg)`;
+    ring!.style.transform = `rotate(${currentRot}deg)`;
+    const R = dial!.clientWidth / 2;
     labelButtons.forEach((btn, i) => {
       btn.classList.toggle('on', i === cur);
-      const span = btn.firstElementChild as HTMLElement | null;
-      if (span) {
-        span.style.transform = `translateY(-30px) rotate(${-(rot + (i * 360) / N)}deg)`;
-      }
+      const a = ((i * 45 + currentRot) * Math.PI) / 180;
+      const sinA = Math.sin(a);
+      const cosA = Math.cos(a);
+      const { w, h } = labelSizes[i] ?? { w: btn.offsetWidth, h: btn.offsetHeight };
+      const r = R + 14 + Math.abs(sinA) * (w / 2) + Math.abs(cosA) * (h / 2);
+      const left = R + r * sinA;
+      const top = R - r * cosA;
+      btn.style.left = `${left}px`;
+      btn.style.top = `${top}px`;
+      btn.style.transform = 'translate(-50%, -50%)';
     });
+  }
+
+  function animateTo(nextTargetRot: number) {
+    stopAnimation();
+    if (isReduced || currentRot === nextTargetRot) {
+      currentRot = nextTargetRot;
+      paint();
+      return;
+    }
+
+    const startRot = currentRot;
+    const deltaRot = nextTargetRot - startRot;
+    const startTime = performance.now();
+    const duration = 900;
+
+    function step(now: number) {
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      currentRot = startRot + deltaRot * eased;
+      paint();
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(step);
+      } else {
+        rafId = null;
+        currentRot = nextTargetRot;
+        paint();
+      }
+    }
+
+    rafId = requestAnimationFrame(step);
   }
 
   function updateUi(i: number) {
     photoImgs.forEach((img, k) => img.classList.toggle('on', k === i));
     progressBars.forEach((b, k) => b.classList.toggle('d', k <= i));
-    tiles.forEach((t, k) => t.classList.toggle('on', k === i));
+    tiles.forEach((t, k) => {
+      t.classList.toggle('on', k === i);
+      t.setAttribute('aria-selected', k === i ? 'true' : 'false');
+    });
 
     const counterText = `${String(i + 1).padStart(2, '0')} / 0${N}`;
     counterSpan.textContent = counterText;
@@ -133,9 +197,11 @@ export function initWheel(): void {
     if (diff < -N / 2) diff += N;
     if (forceDir !== undefined) diff = forceDir;
 
-    rot -= (diff * 360) / N;
+    targetRot -= (diff * 360) / N;
     cur = i;
-    paint();
+    labelButtons.forEach((btn, idx) => btn.classList.toggle('on', idx === cur));
+    measureLabels();
+    animateTo(targetRot);
     updateUi(i);
   }
 
@@ -166,7 +232,13 @@ export function initWheel(): void {
   });
 
   // Pointer drag live rotation
-  let dragData: { startAngle: number; startRot: number; moved: boolean } | null = null;
+  let dragData: {
+    startAngle: number;
+    startRot: number;
+    startX: number;
+    startY: number;
+    moved: boolean;
+  } | null = null;
 
   function getAngle(e: PointerEvent): number {
     const rect = dial!.getBoundingClientRect();
@@ -178,9 +250,12 @@ export function initWheel(): void {
   dial.addEventListener('pointerdown', (e) => {
     if ((e.target as HTMLElement).closest('.nm')) return;
     stopAuto();
+    stopAnimation();
     dragData = {
       startAngle: getAngle(e),
-      startRot: rot,
+      startRot: currentRot,
+      startX: e.clientX,
+      startY: e.clientY,
       moved: false,
     };
     dial!.setPointerCapture(e.pointerId);
@@ -189,19 +264,17 @@ export function initWheel(): void {
 
   dial.addEventListener('pointermove', (e) => {
     if (!dragData) return;
+    const dist = Math.hypot(e.clientX - dragData.startX, e.clientY - dragData.startY);
+    if (!dragData.moved && dist < 8) return;
+    dragData.moved = true;
+
     let delta = getAngle(e) - dragData.startAngle;
     if (delta > 180) delta -= 360;
     if (delta < -180) delta += 360;
-    if (Math.abs(delta) > 2) dragData.moved = true;
 
-    rot = dragData.startRot + delta;
-    ring.style.transform = `rotate(${rot}deg)`;
-    labelButtons.forEach((btn, i) => {
-      const span = btn.firstElementChild as HTMLElement | null;
-      if (span) {
-        span.style.transform = `translateY(-30px) rotate(${-(rot + (i * 360) / N)}deg)`;
-      }
-    });
+    currentRot = dragData.startRot + delta;
+    targetRot = currentRot;
+    paint();
   });
 
   function endDrag() {
@@ -211,10 +284,12 @@ export function initWheel(): void {
     dragData = null;
 
     const step = 360 / N;
-    const k = Math.round(-rot / step);
-    rot = -k * step;
+    const k = Math.round(-currentRot / step);
+    targetRot = -k * step;
     cur = ((k % N) + N) % N;
-    paint();
+    labelButtons.forEach((btn, idx) => btn.classList.toggle('on', idx === cur));
+    measureLabels();
+    animateTo(targetRot);
     if (moved) {
       updateUi(cur);
     }
@@ -246,6 +321,7 @@ export function initWheel(): void {
       const progSelect = document.getElementById('b-prog') as HTMLSelectElement | null;
       if (progSelect && programs[cur]) {
         progSelect.value = programs[cur]?.name ?? '';
+        progSelect.dispatchEvent(new Event('change', { bubbles: true }));
       }
       const bookSection = document.getElementById('book');
       if (bookSection) {
@@ -260,9 +336,24 @@ export function initWheel(): void {
   }
 
   // Initial render at cur = 2
-  rot = (-cur * 360) / N;
+  currentRot = (-cur * 360) / N;
+  targetRot = currentRot;
+  labelButtons.forEach((btn, idx) => btn.classList.toggle('on', idx === cur));
+  measureLabels();
   paint();
   updateUi(cur);
+
+  window.addEventListener('resize', () => {
+    measureLabels();
+    paint();
+  });
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => {
+      measureLabels();
+      paint();
+    });
+  }
 
   // Auto-advance
   let isWheelVisible = false;

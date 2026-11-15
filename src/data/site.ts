@@ -15,8 +15,11 @@ export const siteConfig = {
   phoneTel: '+919071093361',
   phoneFormatted: '+91-9071093361',
   whatsAppNumber: '919071093361',
+  whatsAppUrl: 'https://wa.me/919071093361',
+  instagramHandle: '@alphaprofitness_1',
+  instagramUrl: 'https://www.instagram.com/alphaprofitness_1/',
   parking: 'Free, on the premises',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Lingadheeranahalli%2C%20D%20Group%20Employees%20Layout%2C%20Bengaluru%20560091',
+  mapsUrl: 'https://maps.app.goo.gl/icdGSQxqr8VHFAx37',
   navLinks: [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
@@ -41,7 +44,7 @@ export const siteConfig = {
     },
     membership: {
       title: 'Membership & Plans | AlphaPro Fitness',
-      description: 'Transparent gym membership plans from ₹1,999 a month. Monthly, quarterly, half-yearly, and annual options with full equipment and certified coaching.',
+      description: 'Transparent gym membership plans from ₹2,500 a month. Monthly, quarterly, half-yearly, and annual options with full equipment and certified coaching.',
     },
   },
 };

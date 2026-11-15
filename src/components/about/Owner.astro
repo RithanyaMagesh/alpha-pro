@@ -12,6 +12,8 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
         class="bw-photo owner-img"
         width={560}
         height={680}
+        widths={[480, 768, 1200]}
+        sizes="(min-width: 1024px) 460px, 100vw"
         format="webp"
         loading="lazy"
       />
@@ -65,21 +67,27 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
 
 <style>
   .owner-section {
-    padding: 120px 0;
+    padding-block: clamp(64px, 9vw, 130px);
     border-bottom: 1px solid var(--line);
     background: transparent;
   }
 
   .owner-wrap {
     display: grid;
-    grid-template-columns: 460px 1fr;
-    gap: 80px;
+    grid-template-columns: 1fr;
+    gap: clamp(36px, 5vw, 80px);
     align-items: center;
+  }
+
+  .owner-col {
+    min-width: 0;
   }
 
   .owner-ph {
     position: relative;
-    height: 560px;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: 520px;
     overflow: hidden;
     background: var(--surf);
   }
@@ -107,7 +115,7 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
     font-stretch: 125%;
     font-weight: 700;
     font-style: italic;
-    font-size: 34px;
+    font-size: clamp(23px, 2.8vw, 34px);
     line-height: 1.15;
     margin-top: 22px;
     color: var(--ink);
@@ -124,6 +132,7 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
     width: 40px;
     height: 2px;
     background: var(--lime);
+    flex-shrink: 0;
   }
 
   .owner-who b {
@@ -141,13 +150,13 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
     color: var(--body);
     margin-top: 26px;
     max-width: 56ch;
-    font-size: 16px;
     line-height: 1.6;
   }
 
   .facts {
-    display: flex;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 3vw, 40px);
     margin-top: 34px;
     padding-top: 26px;
     border-top: 1px solid var(--line);
@@ -158,7 +167,7 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
     font-family: 'Archivo Variable', Archivo, sans-serif;
     font-stretch: 125%;
     font-weight: 800;
-    font-size: 28px;
+    font-size: clamp(22px, 2.2vw, 28px);
     line-height: 1;
     color: var(--ink);
   }
@@ -176,32 +185,14 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
     margin-top: 24px;
   }
 
-  @media (max-width: 900px) {
+  @media (min-width: 1024px) {
     .owner-wrap {
-      grid-template-columns: 1fr;
-      gap: 50px;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .owner-section {
-      padding: 70px 0;
+      grid-template-columns: minmax(360px, 460px) 1fr;
     }
 
     .owner-ph {
-      height: 380px;
-    }
-
-    .owner-quote {
-      font-size: 23px;
-    }
-
-    .facts {
-      gap: 20px;
-    }
-
-    .facts b {
-      font-size: 22px;
+      max-height: none;
+      min-height: 500px;
     }
   }
 </style>

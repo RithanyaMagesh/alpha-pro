@@ -1,6 +1,5 @@
 ---
 import { programs } from '../../data/programs';
-import Button from '../Button.astro';
 
 const stepItems = [
   {
@@ -100,23 +99,34 @@ const stepItems = [
         </select>
       </div>
 
-      <Button type="submit" variant="primary" size="default" arrow>
-        Book my 60 minutes
-      </Button>
+      <a
+        id="bk-go"
+        class="btn btn-primary"
+        href="https://wa.me/919071093361"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg
+          class="wa-ico"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M3 21l1.6-4.5A9 9 0 1112 21a9 9 0 01-4.4-1.2z"></path>
+        </svg>
+        Book on WhatsApp
+      </a>
+      <button type="submit" hidden aria-hidden="true" tabindex="-1"></button>
 
       <p class="bk-plan" id="bk-plan" hidden></p>
       <p class="bk-err" id="bk-err" role="alert" aria-live="assertive" hidden></p>
-
-      <div class="bk-ok" id="bk-ok" role="status" aria-live="polite" hidden>
-        <b>You're booked in.</b>
-        <span id="bk-ok-t"></span>
-        <a id="bk-wa" class="wa-continue" target="_blank" rel="noopener">
-          Continue on WhatsApp &rarr;
-        </a>
-        <button type="button" class="btn btn-outline btn-card" id="bk-again">
-          Book another
-        </button>
-      </div>
+      <p class="bk-status" id="bk-status" role="status" aria-live="polite" hidden></p>
     </form>
   </div>
 </section>
@@ -127,19 +137,23 @@ const stepItems = [
     background: transparent;
     border-block: 1px solid var(--line);
     overflow: hidden;
-    padding: 120px 0;
+    padding-block: clamp(64px, 9vw, 130px);
   }
 
   .sixty-top {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 70px;
+    grid-template-columns: 1fr;
+    gap: 28px;
     align-items: center;
-    margin-top: 34px;
+    margin-top: 28px;
+  }
+
+  .sixty-copy {
+    min-width: 0;
   }
 
   .sixty-h2 {
-    font-size: 40px;
+    font-size: clamp(28px, 4.2vw, 50px);
     margin-top: 0;
   }
 
@@ -147,17 +161,19 @@ const stepItems = [
     color: var(--mute);
     margin-top: 18px;
     max-width: 46ch;
-    font-size: 16px;
     line-height: 1.55;
   }
 
   /* LED Clock */
   .led {
     position: relative;
+    width: fit-content;
+    max-width: 100%;
     background: #0b0b0b;
-    border: 10px solid var(--surf);
+    border: 7px solid var(--surf);
     border-radius: 10px;
-    padding: 28px 40px 22px;
+    padding: clamp(16px, 2.5vw, 28px) clamp(20px, 3.5vw, 40px)
+      clamp(12px, 2vw, 22px);
     box-shadow: inset 0 0 0 1px #000, 0 30px 60px -30px #000;
   }
 
@@ -166,7 +182,7 @@ const stepItems = [
     font-family: 'DSEG7', monospace;
     font-style: italic;
     font-weight: 700;
-    font-size: 150px;
+    font-size: clamp(64px, 14vw, 160px);
     line-height: 1;
   }
 
@@ -176,8 +192,8 @@ const stepItems = [
 
   .led .lit {
     position: absolute;
-    left: 40px;
-    top: 28px;
+    left: clamp(20px, 3.5vw, 40px);
+    top: clamp(16px, 2.5vw, 28px);
     color: var(--lime);
     text-shadow: 0 0 16px rgba(184, 241, 60, 0.35);
     transition: text-shadow 0.3s ease;
@@ -189,8 +205,8 @@ const stepItems = [
 
   .led-tag {
     position: absolute;
-    right: 16px;
-    top: 10px;
+    right: 14px;
+    top: 8px;
     font-family: 'Archivo Variable', Archivo, sans-serif;
     font-size: 11px;
     font-weight: 700;
@@ -198,33 +214,33 @@ const stepItems = [
     letter-spacing: 0.1em;
   }
 
-  /* Steps */
+  /* Steps: vertical list with left progress bar on <768 */
   .steps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin-top: 80px;
-    border-top: 1px solid var(--line);
+    grid-template-columns: 1fr;
+    margin-top: 44px;
+    border-left: 1px solid var(--line);
     position: relative;
   }
 
   .steps::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: -1px;
-    width: var(--sp, 0%);
-    height: 3px;
+    left: -1px;
+    top: 0;
+    width: 3px;
+    height: var(--sp, 0%);
     background: var(--lime);
-    transition: width 0.2s linear;
+    transition: height 0.2s linear;
   }
 
   .st {
-    padding: 28px 28px 0 0;
+    padding: 0 0 26px 22px;
+    min-width: 0;
   }
 
-  .st + .st {
-    padding-left: 28px;
-    border-left: 1px solid var(--line);
+  .st:last-child {
+    padding-bottom: 0;
   }
 
   .st .tm {
@@ -238,8 +254,8 @@ const stepItems = [
     font-family: 'Archivo Variable', Archivo, sans-serif;
     font-stretch: 125%;
     font-weight: 750;
-    font-size: 21px;
-    margin-top: 12px;
+    font-size: clamp(18px, 1.8vw, 21px);
+    margin-top: 10px;
     line-height: 1.15;
     color: var(--ink);
   }
@@ -247,17 +263,17 @@ const stepItems = [
   .st-desc {
     color: var(--mute);
     font-size: 14.5px;
-    margin-top: 10px;
+    margin-top: 8px;
     line-height: 1.5;
   }
 
-  /* Booking Form */
+  /* Booking Form: 1 column on <768 */
   .book {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr;
     gap: 14px;
-    margin-top: 70px;
-    padding: 30px;
+    margin-top: 44px;
+    padding: clamp(20px, 3vw, 30px);
     background: var(--surf);
     border: 1px solid var(--line);
     position: relative;
@@ -284,9 +300,15 @@ const stepItems = [
     }
   }
 
+  .book > .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .fl {
     display: flex;
     flex-direction: column;
+    min-width: 0;
   }
 
   .fl label {
@@ -307,7 +329,7 @@ const stepItems = [
     color: var(--ink);
     padding: 0 16px;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 16px;
     border-radius: 0;
     appearance: none;
     transition: border-color 0.2s ease;
@@ -320,6 +342,7 @@ const stepItems = [
     background-size: 6px 6px;
     background-repeat: no-repeat;
     cursor: pointer;
+    padding-right: 36px;
   }
 
   .fl input:focus,
@@ -333,7 +356,8 @@ const stepItems = [
   }
 
   .bk-plan,
-  .bk-err {
+  .bk-err,
+  .bk-status {
     grid-column: 1 / -1;
     font-size: 14px;
     margin: 0;
@@ -347,95 +371,127 @@ const stepItems = [
     color: var(--error);
   }
 
-  .bk-ok {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 20px;
-    align-items: center;
-    font-size: 15px;
-  }
-
-  .bk-ok b {
-    color: var(--lime);
-    font-size: 18px;
-  }
-
-  .bk-ok span {
+  .bk-status {
     color: #cfd0cc;
-    flex: 1 1 300px;
   }
 
-  .wa-continue {
+  .bk-status :global(a) {
     color: var(--lime);
-    font-weight: 600;
     text-decoration: underline;
-    margin-right: 12px;
+    text-underline-offset: 3px;
+    font-weight: 600;
   }
 
-  .book.done .fl,
-  .book.done > :global(.btn),
-  .book.done .bk-plan {
-    display: none;
+  .bk-status :global(a:hover) {
+    filter: brightness(1.1);
   }
 
-  @media (max-width: 640px) {
-    .sixty-section {
-      padding: 80px 0;
-    }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 24px;
+    background: var(--lime);
+    color: #111111;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, calc(100% - 14px) 100%, 0 100%);
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
 
-    .sixty-top {
-      grid-template-columns: 1fr;
-      gap: 26px;
-    }
+  .btn-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+  }
 
-    .sixty-h2 {
-      font-size: 27px;
-    }
+  .wa-ico {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+  }
 
+  /* md: 768px - 1023px (clock top, steps 2x2, form 2x2) */
+  @media (min-width: 768px) {
     .led {
-      padding: 16px 18px 12px;
-      border-width: 7px;
-    }
-
-    .led .ghost,
-    .led .lit {
-      font-size: 19vw;
-    }
-
-    .led .lit {
-      left: 18px;
-      top: 16px;
+      border-width: 10px;
     }
 
     .steps {
-      grid-template-columns: 1fr;
-      margin-top: 44px;
-      border-top: none;
-      border-left: 1px solid var(--line);
+      grid-template-columns: repeat(2, 1fr);
+      border-left: none;
+      border-top: 1px solid var(--line);
+      margin-top: 64px;
     }
 
     .steps::before {
-      width: 3px !important;
-      height: var(--sp, 0%) !important;
-      left: -1px;
-      top: 0;
+      left: 0;
+      top: -1px;
+      width: var(--sp, 0%);
+      height: 3px;
+      transition: width 0.2s linear;
     }
 
-    .st,
-    .st + .st {
-      padding: 0 0 26px 22px;
-      border-left: none;
+    .st {
+      padding: 28px 24px 28px 0;
+    }
+
+    .st:nth-child(even) {
+      padding-left: 24px;
+      border-left: 1px solid var(--line);
+    }
+
+    .st:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
     }
 
     .book {
-      grid-template-columns: 1fr;
-      margin-top: 30px;
-      padding: 22px;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 56px;
     }
 
-    .book :global(.btn) {
-      width: 100%;
+    .book > .btn {
+      justify-content: center;
+    }
+  }
+
+  /* lg: >= 1024px (clock & text side by side, 4 steps in a row, form 4 in a row) */
+  @media (min-width: 1024px) {
+    .sixty-top {
+      grid-template-columns: auto 1fr;
+      gap: 60px;
+      margin-top: 34px;
+    }
+
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 80px;
+    }
+
+    .st {
+      padding: 28px 28px 0 0;
+    }
+
+    .st + .st {
+      padding-left: 28px;
+      border-left: 1px solid var(--line);
+    }
+
+    .st:nth-child(n + 3) {
+      border-top: none;
+    }
+
+    .book {
+      grid-template-columns: 1fr 1fr 1fr auto;
+      margin-top: 70px;
+    }
+
+    .book > .btn {
+      width: auto;
     }
   }
 

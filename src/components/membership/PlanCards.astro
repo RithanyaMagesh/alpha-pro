@@ -42,32 +42,29 @@ import Button from '../Button.astro';
         ))
       }
     </div>
-
-    <p class="sample-note">
-      Sample prices. Replace with AlphaPro's actual pricing.
-    </p>
   </div>
 </section>
 
 <style>
   .plans-section {
-    padding: 70px 0 120px;
+    padding-block: clamp(40px, 6vw, 70px) clamp(64px, 9vw, 120px);
     background: transparent;
   }
 
   .tiers-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .tier {
     border: 1px solid var(--line);
     background: var(--surf);
-    padding: 30px 28px;
+    padding: clamp(22px, 3vw, 30px) clamp(20px, 2.5vw, 28px);
     position: relative;
     display: flex;
     flex-direction: column;
+    min-width: 0;
     transition: transform 0.3s ease, border-color 0.3s ease;
   }
 
@@ -109,7 +106,7 @@ import Button from '../Button.astro';
     font-family: 'Archivo Variable', Archivo, sans-serif;
     font-stretch: 125%;
     font-weight: 800;
-    font-size: 42px;
+    font-size: clamp(34px, 3vw, 42px);
     margin-top: 18px;
     line-height: 1;
     color: var(--ink);
@@ -177,28 +174,16 @@ import Button from '../Button.astro';
     margin-top: 20px;
   }
 
-  @media (max-width: 960px) {
+  @media (min-width: 640px) {
     .tiers-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
     }
   }
 
-  @media (max-width: 640px) {
-    .plans-section {
-      padding: 40px 0 80px;
-    }
-
+  @media (min-width: 1280px) {
     .tiers-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .tier {
-      padding: 24px 22px;
-    }
-
-    .p {
-      font-size: 34px;
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 </style>

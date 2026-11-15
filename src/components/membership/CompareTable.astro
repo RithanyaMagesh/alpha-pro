@@ -7,8 +7,9 @@ import { compareRows } from '../../data/plans';
     <span class="section-label">Side by side</span>
     <h2 id="compare-h2" class="section-h2">COMPARE PLANS.</h2>
 
-    <div class="compare-table-wrap">
-      <table class="ct">
+    <div class="compare-table-outer">
+      <div class="compare-table-wrap">
+        <table class="ct">
         <colgroup>
           <col />
           <col />
@@ -20,16 +21,16 @@ import { compareRows } from '../../data/plans';
           <tr>
             <th scope="col"><span class="sr-only">Feature</span></th>
             <th scope="col">
-              Monthly<small>₹1,999</small>
+              Monthly<small>₹2,500</small>
             </th>
             <th scope="col">
-              Quarterly<small>₹4,999</small>
+              Quarterly<small>₹5,000</small>
             </th>
             <th scope="col">
-              Half-yearly<small>₹8,999</small>
+              Half-yearly<small>₹8,000</small>
             </th>
             <th scope="col">
-              Annual<small>₹14,999</small>
+              Annual<small>₹12,000</small>
             </th>
           </tr>
         </thead>
@@ -56,39 +57,64 @@ import { compareRows } from '../../data/plans';
           }
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .cmp-section {
-    padding: 110px 0;
+    padding-block: clamp(64px, 9vw, 130px);
     border-block: 1px solid var(--line);
     background: transparent;
   }
 
+  .compare-table-outer {
+    position: relative;
+    margin-top: clamp(24px, 4vw, 40px);
+  }
+
+  .compare-table-outer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    background: linear-gradient(90deg, transparent, rgba(22, 22, 22, 0.92));
+    pointer-events: none;
+    z-index: 3;
+  }
+
   .compare-table-wrap {
     overflow-x: auto;
-    margin-top: 40px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .ct {
     width: 100%;
+    min-width: 580px;
     border-collapse: collapse;
-    font-size: 15px;
+    font-size: clamp(13.5px, 1.1vw, 15px);
   }
 
   .ct th,
   .ct td {
-    padding: 18px 16px;
+    padding: 14px 12px;
     border-bottom: 1px solid var(--line);
     text-align: center;
   }
 
   .ct th:first-child,
   .ct td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #161616;
     text-align: left;
     color: #d6d7d3;
+    min-width: 145px;
+    padding-right: 16px;
   }
 
   .ct thead th {
@@ -142,26 +168,25 @@ import { compareRows } from '../../data/plans';
     border: 0;
   }
 
-  @media (max-width: 640px) {
-    .cmp-section {
-      padding: 70px 0;
-    }
-
-    .compare-table-wrap {
-      margin-top: 24px;
+  @media (min-width: 768px) {
+    .compare-table-outer::after {
+      display: none;
     }
 
     .ct {
-      font-size: 12.5px;
+      min-width: 0;
     }
 
     .ct th,
     .ct td {
-      padding: 12px 6px;
+      padding: 18px 16px;
     }
 
-    .ct thead th small {
-      display: none;
+    .ct th:first-child,
+    .ct td:first-child {
+      position: static;
+      background: transparent;
+      min-width: 0;
     }
   }
 </style>

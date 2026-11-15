@@ -17,6 +17,8 @@ const { titleTop = 'READY TO', titleBottom = 'EVOLVE?' } = Astro.props;
       src={equipImg}
       alt="AlphaPro gym equipment"
       class="bw-photo cta-img"
+      widths={[480, 768, 1200]}
+      sizes="(min-width: 1024px) 36vw, 100vw"
       width={720}
       height={480}
       format="webp"
@@ -47,19 +49,17 @@ const { titleTop = 'READY TO', titleBottom = 'EVOLVE?' } = Astro.props;
 <style>
   .cta-band {
     position: relative;
-    height: 300px;
     overflow: hidden;
     border-block: 1px solid var(--line);
     background: transparent;
+    padding-bottom: clamp(44px, 6vw, 60px);
   }
 
   .cta-ph {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 36%;
-    clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    clip-path: polygon(0 0, 100% 0, 100% 78%, 0 100%);
     overflow: hidden;
   }
 
@@ -67,7 +67,7 @@ const { titleTop = 'READY TO', titleBottom = 'EVOLVE?' } = Astro.props;
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent 50%, var(--bg));
+    background: linear-gradient(0deg, var(--bg) 0%, transparent 50%);
   }
 
   .cta-img {
@@ -82,32 +82,35 @@ const { titleTop = 'READY TO', titleBottom = 'EVOLVE?' } = Astro.props;
   }
 
   .cta-s1 {
-    right: -40px;
-    top: -40px;
-    width: 110px;
-    height: 400px;
+    right: -50px;
+    top: -30px;
+    width: 60px;
+    height: 300px;
   }
 
   .cta-s2 {
-    right: 140px;
-    top: -40px;
-    width: 40px;
-    height: 400px;
+    right: 30px;
+    top: -30px;
+    width: 20px;
+    height: 240px;
   }
 
   .cta-in {
     position: relative;
     z-index: 2;
-    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-left: 40%;
-    padding-right: 80px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .cta-content {
+    min-width: 0;
   }
 
   .cta-title {
-    font-size: 58px;
+    font-size: clamp(36px, 5vw, 62px);
     line-height: 0.95;
     margin: 0;
   }
@@ -116,51 +119,52 @@ const { titleTop = 'READY TO', titleBottom = 'EVOLVE?' } = Astro.props;
     color: var(--body);
     margin-top: 12px;
     max-width: 40ch;
-    font-size: 16px;
   }
 
-  @media (max-width: 1024px) {
-    .cta-in {
-      padding-right: 40px;
-    }
-  }
-
-  @media (max-width: 640px) {
+  @media (min-width: 1024px) {
     .cta-band {
-      height: auto;
-      padding: 240px 0 50px;
+      min-height: 300px;
+      padding-bottom: 0;
+      display: flex;
+      align-items: center;
     }
 
     .cta-ph {
-      width: 100%;
-      height: 220px;
-      clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
-      bottom: auto;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 36%;
+      aspect-ratio: auto;
+      clip-path: polygon(0 0, 100% 0, 78% 100%, 0 100%);
+    }
+
+    .cta-ph::after {
+      background: linear-gradient(90deg, transparent 50%, var(--bg));
     }
 
     .cta-s1 {
-      right: -50px;
-      top: -30px;
-      width: 60px;
-      height: 300px;
+      right: -40px;
+      top: -40px;
+      width: 110px;
+      height: 400px;
     }
 
     .cta-s2 {
-      right: 30px;
-      top: -30px;
-      width: 20px;
-      height: 240px;
+      right: 140px;
+      top: -40px;
+      width: 40px;
+      height: 400px;
     }
 
     .cta-in {
-      padding: 0;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 24px;
-    }
-
-    .cta-title {
-      font-size: 40px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0;
+      padding-left: max(40%, calc(var(--gutter) + 36%));
+      padding-right: 60px;
+      padding-block: 48px;
     }
   }
 

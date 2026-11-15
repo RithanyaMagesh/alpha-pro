@@ -10,6 +10,8 @@ import Button from '../Button.astro';
       src={bodybuildingImg}
       alt="AlphaPro bodybuilding and free weights floor"
       class="bw-photo about-img"
+      widths={[480, 768, 1200]}
+      sizes="(min-width: 1024px) 42vw, 100vw"
       width={640}
       height={560}
       format="webp"
@@ -28,8 +30,8 @@ import Button from '../Button.astro';
         who'll actually <b>fix your form</b> before adding weight.
       </p>
       <div class="about-cta">
-        <Button href="/about#team" variant="outline" size="card">
-          Meet the team
+        <Button href="/about#owner" variant="outline" size="card">
+          Meet the owner
         </Button>
       </div>
     </div>
@@ -57,8 +59,7 @@ import Button from '../Button.astro';
   .about-teaser {
     position: relative;
     display: grid;
-    grid-template-columns: 42% 1fr;
-    min-height: 560px;
+    grid-template-columns: 1fr;
     overflow: hidden;
     border-bottom: 1px solid var(--line);
     background: transparent;
@@ -66,6 +67,7 @@ import Button from '../Button.astro';
 
   .about-teaser-ph {
     position: relative;
+    aspect-ratio: 16 / 10;
     overflow: hidden;
   }
 
@@ -80,7 +82,7 @@ import Button from '../Button.astro';
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent 55%, var(--bg));
+    background: linear-gradient(0deg, var(--bg) 0%, transparent 55%);
   }
 
   .about-s1 {
@@ -99,17 +101,21 @@ import Button from '../Button.astro';
 
   .about-teaser-in {
     display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 60px;
+    grid-template-columns: 1fr;
+    gap: 36px;
     align-items: center;
-    padding: 80px 80px 80px 40px;
+    padding: 24px var(--gutter) clamp(56px, 8vw, 80px);
+    min-width: 0;
+  }
+
+  .about-teaser-copy {
+    min-width: 0;
   }
 
   .about-desc {
     color: var(--body);
-    margin-top: 22px;
+    margin-top: 20px;
     max-width: 46ch;
-    font-size: 16px;
     line-height: 1.6;
   }
 
@@ -118,14 +124,20 @@ import Button from '../Button.astro';
   }
 
   .about-cta {
-    margin-top: 30px;
+    margin-top: 28px;
   }
 
   .about-stats {
-    border-left: 1px solid var(--line);
-    padding-left: 40px;
+    border-top: 1px solid var(--lime);
+    padding-top: 26px;
     display: grid;
-    gap: 34px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .stat-item {
+    min-width: 0;
   }
 
   .stat-number {
@@ -133,7 +145,7 @@ import Button from '../Button.astro';
     font-family: 'Archivo Variable', Archivo, sans-serif;
     font-stretch: 125%;
     font-weight: 800;
-    font-size: 44px;
+    font-size: clamp(24px, 4vw, 44px);
     line-height: 1;
     color: var(--ink);
   }
@@ -147,58 +159,46 @@ import Button from '../Button.astro';
 
   .stat-label {
     display: block;
-    font-size: 14px;
+    font-size: clamp(12px, 1.2vw, 14px);
     color: var(--mute);
     margin-top: 6px;
   }
 
-  @media (max-width: 960px) {
-    .about-teaser-in {
-      grid-template-columns: 1fr;
-      padding: 60px 40px;
-      gap: 40px;
-    }
-    .about-stats {
-      border-left: none;
-      border-top: 1px solid var(--line);
-      padding-left: 0;
-      padding-top: 30px;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-  }
-
-  @media (max-width: 640px) {
+  @media (min-width: 1024px) {
     .about-teaser {
-      grid-template-columns: 1fr;
+      grid-template-columns: 42% 1fr;
+      min-height: 540px;
     }
 
     .about-teaser-ph {
-      height: 300px;
+      aspect-ratio: auto;
     }
 
     .about-teaser-ph::after {
-      background: linear-gradient(0deg, var(--bg) 0%, transparent 55%);
+      background: linear-gradient(90deg, transparent 55%, var(--bg));
     }
 
     .about-teaser-in {
-      padding: 20px 20px 60px;
-      gap: 36px;
+      grid-template-columns: 1fr 240px;
+      gap: 48px;
+      padding: 80px 60px 80px 40px;
     }
 
     .about-stats {
-      border-top: 1px solid var(--lime);
-      padding: 26px 0 0;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      border-top: none;
+      border-left: 1px solid var(--line);
+      padding-top: 0;
+      padding-left: 40px;
+      grid-template-columns: 1fr;
+      gap: 34px;
     }
+  }
 
-    .stat-number {
-      font-size: 26px;
-    }
-
-    .stat-label {
-      font-size: 12px;
+  @media (min-width: 1280px) {
+    .about-teaser-in {
+      grid-template-columns: 1fr 260px;
+      gap: 60px;
+      padding: 80px 80px 80px 40px;
     }
   }
 </style>

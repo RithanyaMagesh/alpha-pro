@@ -24,6 +24,7 @@ export function initNav(): void {
       burger.classList.remove('x');
       burger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
+      document.body.classList.remove('menu-open');
       burger.focus();
     };
 
@@ -32,6 +33,7 @@ export function initNav(): void {
       burger.classList.add('x');
       burger.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('menu-open');
 
       const focusable = getFocusable();
       if (focusable.length > 0) {

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import MobileMenu from '../components/MobileMenu.astro';
+import MobileActionBar from '../components/MobileActionBar.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../data/site';
 
@@ -30,6 +31,7 @@ const schemaData = isHome
       description: siteConfig.description,
       telephone: siteConfig.phoneFormatted,
       url: 'https://alphaprofitness.in',
+      sameAs: [siteConfig.instagramUrl],
       address: {
         '@type': 'PostalAddress',
         streetAddress: siteConfig.streetAddress,
@@ -92,6 +94,7 @@ const schemaData = isHome
     <slot />
 
     <Footer />
+    <MobileActionBar />
 
     <script>
       import { initGrain } from '../scripts/grain';

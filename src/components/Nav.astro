@@ -25,6 +25,8 @@ function isActive(href: string): boolean {
         src={logoImg}
         alt="AlphaPro Fitness Logo"
         class="logo-img"
+        widths={[96, 140]}
+        sizes="(min-width: 1024px) 140px, 96px"
         width={140}
         height={68}
         format="webp"
@@ -65,9 +67,11 @@ function isActive(href: string): boolean {
       aria-expanded="false"
       aria-controls="sheet"
     >
-      <i aria-hidden="true"></i>
-      <i aria-hidden="true"></i>
-      <i aria-hidden="true"></i>
+      <span class="burger-lines" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
     </button>
   </div>
 </nav>
@@ -92,9 +96,10 @@ function isActive(href: string): boolean {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 92px;
+    height: 70px;
     border-bottom: 1px solid var(--line);
     transition: border-bottom-color 0.3s ease;
+    gap: 16px;
   }
 
   nav.solid .nav-wrap {
@@ -104,28 +109,32 @@ function isActive(href: string): boolean {
   .logo {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: clamp(10px, 1.5vw, 16px);
     text-decoration: none;
     color: var(--ink);
     cursor: pointer;
+    min-width: 0;
   }
 
   .logo-img {
-    height: 68px;
+    height: clamp(40px, 5vw, 68px);
     width: auto;
     object-fit: contain;
+    flex-shrink: 0;
   }
 
   .logo-divider {
     width: 1px;
-    height: 40px;
+    height: clamp(28px, 3vw, 40px);
     background: rgba(255, 255, 255, 0.35);
+    flex-shrink: 0;
   }
 
   .logo-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0;
   }
 
   .brand-top {
@@ -133,119 +142,117 @@ function isActive(href: string): boolean {
     font-family: 'Archivo Variable', Archivo, sans-serif;
     font-stretch: 125%;
     font-weight: 800;
-    font-size: 17px;
+    font-size: clamp(13px, 1.4vw, 17px);
     letter-spacing: 0.02em;
     line-height: 1;
     color: var(--ink);
+    white-space: nowrap;
   }
 
   .brand-bottom {
     display: block;
-    font-size: 11.5px;
-    letter-spacing: 0.62em;
+    font-size: clamp(9px, 0.9vw, 11.5px);
+    letter-spacing: clamp(0.45em, 0.5vw, 0.62em);
     color: var(--lime);
-    margin-top: 6px;
+    margin-top: 5px;
     font-weight: 600;
     line-height: 1;
+    white-space: nowrap;
   }
 
-  .nav-links {
-    display: flex;
-    gap: 38px;
-    font-size: 14px;
-  }
-
-  .nav-link {
-    color: #d9d9d4;
-    text-decoration: none;
-    position: relative;
-    cursor: pointer;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .nav-link:hover {
-    color: var(--ink);
-  }
-
-  .nav-link.on {
-    color: var(--lime);
-    font-weight: 600;
-  }
-
-  .nav-link.on::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -10px;
-    height: 2px;
-    background: var(--lime);
+  .nav-links,
+  .nav-cta {
+    display: none;
   }
 
   .burger {
-    display: none;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-right: -8px;
     background: none;
     border: none;
-    padding: 8px;
     cursor: pointer;
+    flex-shrink: 0;
   }
 
-  .burger i {
+  .burger-lines {
+    display: grid;
+    gap: 6px;
+    width: 26px;
+  }
+
+  .burger-lines i {
     display: block;
     height: 2px;
     background: var(--ink);
     transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
   }
 
-  .burger i:last-child {
+  .burger-lines i:last-child {
     width: 60%;
     background: var(--lime);
     justify-self: end;
   }
 
-  .burger.x i:nth-child(1) {
+  .burger.x .burger-lines i:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
-  .burger.x i:nth-child(2) {
+  .burger.x .burger-lines i:nth-child(2) {
     opacity: 0;
   }
-  .burger.x i:nth-child(3) {
+  .burger.x .burger-lines i:nth-child(3) {
     width: 100%;
     transform: translateY(-8px) rotate(-45deg);
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 1024px) {
     .nav-wrap {
-      height: 70px;
+      height: 92px;
     }
 
-    .logo-img {
-      height: 46px;
+    .nav-links {
+      display: flex;
+      gap: 38px;
+      font-size: 14px;
     }
 
-    .logo-divider {
-      height: 30px;
+    .nav-link {
+      color: #d9d9d4;
+      text-decoration: none;
+      position: relative;
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      white-space: nowrap;
     }
 
-    .brand-top {
-      font-size: 13px;
+    .nav-link:hover {
+      color: var(--ink);
     }
 
-    .brand-bottom {
-      font-size: 9px;
-      letter-spacing: 0.5em;
+    .nav-link.on {
+      color: var(--lime);
+      font-weight: 600;
     }
 
-    .nav-links,
+    .nav-link.on::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -10px;
+      height: 2px;
+      background: var(--lime);
+    }
+
     .nav-cta {
-      display: none;
+      display: block;
     }
 
     .burger {
-      display: grid;
-      gap: 6px;
-      width: 26px;
+      display: none;
     }
   }
 </style>

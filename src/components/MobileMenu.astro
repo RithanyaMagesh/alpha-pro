@@ -47,7 +47,12 @@ function isActive(href: string): boolean {
 
   <div class="sh-c">
     <span>Call or WhatsApp</span>
-    <a href={`tel:${siteConfig.phoneTel}`} class="sh-phone">
+    <a
+      href={siteConfig.whatsAppUrl}
+      target="_blank"
+      rel="noopener"
+      class="sh-phone"
+    >
       <b>{siteConfig.phoneDisplay}</b>
     </a>
   </div>
@@ -64,6 +69,7 @@ function isActive(href: string): boolean {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    overflow-y: auto;
   }
 
   .sheet-close {
@@ -129,7 +135,7 @@ function isActive(href: string): boolean {
     color: var(--lime);
   }
 
-  @media (min-width: 641px) {
+  @media (min-width: 1024px) {
     .sheet {
       display: none !important;
     }
