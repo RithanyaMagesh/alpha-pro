@@ -203,6 +203,19 @@ h4 {
   outline-offset: 3px;
 }
 
+/* Screen-reader-only text (keeps SEO context without changing the design) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Number tabular nums */
 .tabular-numbers {
   font-stretch: 125%;

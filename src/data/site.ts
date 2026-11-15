@@ -35,16 +35,19 @@ export const siteConfig = {
   ],
   seo: {
     home: {
-      title: 'AlphaPro Fitness | Gym in Lingadheeranahalli, Bengaluru',
-      description: '4,500 sq.ft of iron, coaches on the floor, and A/C that actually keeps up. Lingadheeranahalli, Bengaluru. Book your free 60-minute trial workout today.',
+      title: 'Alpha Pro Fitness | Gym in Lingadheeranahalli, Bengaluru',
+      description:
+        'Looking for a gym in Lingadheeranahalli, Bengaluru? Alpha Pro Fitness has 4,500 sq.ft of iron, certified coaches, A/C and free parking. Book a free 60-minute trial.',
     },
     about: {
-      title: 'About | AlphaPro Fitness',
-      description: 'The people behind the iron. A neighbourhood gym in Lingadheeranahalli, run by coaches who lift, train and show up every single day.',
+      title: 'About Alpha Pro Fitness | Gym & Coaches in Lingadheeranahalli',
+      description:
+        'Meet the coaches behind Alpha Pro Fitness, a neighbourhood gym in Lingadheeranahalli, Bengaluru. Serious training, certified guidance and a floor built for every level.',
     },
     membership: {
-      title: 'Membership & Plans | AlphaPro Fitness',
-      description: 'Transparent gym membership plans from ₹2,500 a month. Monthly, quarterly, half-yearly, and annual options with full equipment and certified coaching.',
+      title: 'Gym Membership Plans from ₹2,500/month | Alpha Pro Fitness',
+      description:
+        'Compare Alpha Pro Fitness gym membership plans from ₹2,500 a month in Lingadheeranahalli, Bengaluru. Monthly, quarterly, half-yearly and annual plans with certified coaching.',
     },
   },
 };
