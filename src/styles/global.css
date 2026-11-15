@@ -51,6 +51,13 @@ html {
   scroll-padding-top: 96px;
   color: var(--ink);
   overflow-x: clip;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 body {
@@ -208,6 +215,19 @@ h4 {
   body {
     padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px));
   }
+}
+
+/* Preloader gating: hold the page still until the loading screen clears */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+
+html.is-loading .hero-rise,
+html.is-loading .hero-rise-delayed,
+html.is-loading .hero-photo-zoom,
+html.is-loading .hero-stripe-slide {
+  animation-play-state: paused;
 }
 
 /* Animation utilities */

@@ -1,0 +1,272 @@
+---
+import { Image } from 'astro:assets';
+import logoImg from '../assets/logo/logooo.png';
+
+const COLUMN_COUNT = 12;
+---
+
+<div id="preloader" class="preloader" aria-hidden="true">
+  <div class="preloader-blackout"></div>
+
+  <div class="preloader-columns">
+    {
+      Array.from({ length: COLUMN_COUNT }).map((_, i) => (
+        <i
+          class="preloader-column"
+          style={`--rise-delay: ${(0.1 + i * 0.06).toFixed(2)}s; --fall-delay: ${(3 + (COLUMN_COUNT - 1 - i) * 0.06).toFixed(2)}s;`}
+        />
+      ))
+    }
+  </div>
+
+  <div class="preloader-dividers">
+    {
+      Array.from({ length: COLUMN_COUNT }).map((_, i) => (
+        <i
+          class="preloader-divider"
+          style={`--rise-delay: ${(0.1 + i * 0.06).toFixed(2)}s; --fall-delay: ${(3 + (COLUMN_COUNT - 1 - i) * 0.06).toFixed(2)}s;`}
+        >
+          <span />
+        </i>
+      ))
+    }
+  </div>
+
+  <div class="preloader-logo">
+    <Image
+      src={logoImg}
+      alt=""
+      width={1080}
+      height={1080}
+      widths={[375, 750]}
+      sizes="(min-width: 768px) 375px, 212px"
+      format="webp"
+      loading="eager"
+      draggable="false"
+      class="preloader-logo-img"
+    />
+    <span>Alpha Pro Fitness</span>
+  </div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    overflow: hidden;
+  }
+
+  .preloader-done {
+    display: none;
+  }
+
+  .preloader-blackout {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    animation: preloader-blackout-fade 0.3s ease 1.8s forwards;
+  }
+
+  .preloader-columns,
+  .preloader-dividers {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    overflow: hidden;
+  }
+
+  .preloader-columns {
+    z-index: 2;
+  }
+
+  .preloader-dividers {
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .preloader-column {
+    display: block;
+    height: 100%;
+    min-width: 0;
+    background: var(--lime);
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    will-change: transform;
+    animation:
+      preloader-column-rise 0.9s cubic-bezier(0.76, 0, 0.24, 1) var(--rise-delay) forwards,
+      preloader-column-fall 0.8s cubic-bezier(0.76, 0, 0.24, 1) var(--fall-delay) forwards;
+  }
+
+  .preloader-divider {
+    position: relative;
+    display: block;
+    height: 100%;
+    min-width: 0;
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    animation:
+      preloader-column-rise 0.9s cubic-bezier(0.76, 0, 0.24, 1) var(--rise-delay) forwards,
+      preloader-column-fall 0.8s cubic-bezier(0.76, 0, 0.24, 1) var(--fall-delay) forwards;
+  }
+
+  .preloader-divider span {
+    position: absolute;
+    inset-block: 0;
+    right: 0;
+    width: 0.45px;
+    background: var(--bg);
+  }
+
+  .preloader-logo {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 24px;
+    pointer-events: none;
+    animation: preloader-logo-fade 0.25s ease 2.85s forwards;
+  }
+
+  .preloader-logo-img {
+    width: clamp(212px, 30vw, 375px);
+    height: auto;
+    user-select: none;
+  }
+
+  .preloader-logo span {
+    margin-top: 20px;
+    padding-left: 0.42em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--bg);
+  }
+
+  /* Responsive column tracks */
+  .preloader-column:nth-child(n + 7),
+  .preloader-divider:nth-child(n + 7) {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .preloader-columns,
+    .preloader-dividers {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+
+    .preloader-column:nth-child(-n + 8),
+    .preloader-divider:nth-child(-n + 8) {
+      display: block;
+    }
+
+    .preloader-column:nth-child(n + 9),
+    .preloader-divider:nth-child(n + 9) {
+      display: none;
+    }
+
+    .preloader-logo span {
+      margin-top: 24px;
+      font-size: 12px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .preloader-columns,
+    .preloader-dividers {
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+    }
+
+    .preloader-column:nth-child(-n + 10),
+    .preloader-divider:nth-child(-n + 10) {
+      display: block;
+    }
+
+    .preloader-column:nth-child(n + 11),
+    .preloader-divider:nth-child(n + 11) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .preloader-columns,
+    .preloader-dividers {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .preloader-column:nth-child(-n + 12),
+    .preloader-divider:nth-child(-n + 12) {
+      display: block;
+    }
+  }
+
+  @keyframes preloader-column-rise {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  @keyframes preloader-column-fall {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes preloader-blackout-fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes preloader-logo-fade {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .preloader {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const preloader = document.getElementById('preloader');
+  const root = document.documentElement;
+
+  const revealSite = () => {
+    root.classList.remove('is-loading');
+  };
+
+  if (!preloader) {
+    revealSite();
+  } else if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    revealSite();
+    preloader.remove();
+  } else {
+    // Start the site intro 1.45s before the columns finish clearing.
+    // Last column finishes at 3.66s + 0.8s = 4.46s.
+    window.setTimeout(revealSite, 3010);
+    // Remove the overlay once the last column has retracted.
+    window.setTimeout(() => preloader.remove(), 4800);
+  }
+</script>
