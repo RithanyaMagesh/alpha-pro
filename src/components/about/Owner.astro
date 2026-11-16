@@ -185,14 +185,23 @@ import nutritionImg from '../../assets/photos/nutrition.jpg';
     margin-top: 24px;
   }
 
-  @media (min-width: 1024px) {
-    .owner-wrap {
-      grid-template-columns: minmax(360px, 460px) 1fr;
+  @media (min-width: 641px) {
+    .owner-section {
+      padding-block: clamp(56px, 11vh, 130px);
+      padding-block: clamp(56px, 11svh, 130px);
     }
 
     .owner-ph {
       max-height: none;
-      min-height: 500px;
+      aspect-ratio: auto;
+      height: clamp(360px, 72vh, 560px);
+      height: clamp(360px, 72svh, 560px);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .owner-wrap {
+      grid-template-columns: minmax(360px, 460px) 1fr;
     }
   }
 </style>

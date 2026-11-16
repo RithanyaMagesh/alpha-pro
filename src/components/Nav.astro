@@ -102,6 +102,17 @@ function isActive(href: string): boolean {
     gap: 16px;
   }
 
+  @media (min-width: 641px) {
+    .nav-wrap {
+      height: var(--navh);
+    }
+
+    .logo-img {
+      height: clamp(42px, 7.4vh, 68px);
+      height: clamp(42px, 7.4svh, 68px);
+    }
+  }
+
   nav.solid .nav-wrap {
     border-bottom-color: transparent;
   }

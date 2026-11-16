@@ -108,6 +108,19 @@ import Button from '../Button.astro';
     }
   }
 
+  @media (min-width: 641px) {
+    .mini-sixty {
+      padding-block: clamp(56px, 11vh, 120px);
+      padding-block: clamp(56px, 11svh, 120px);
+    }
+
+    .led-mini .ghost,
+    .led-mini .lit {
+      font-size: clamp(44px, min(4.6vw, 8vh), 64px);
+      font-size: clamp(44px, min(4.6vw, 8svh), 64px);
+    }
+  }
+
   @media (min-width: 1024px) {
     .mini-sixty-wrap {
       grid-template-columns: auto 1fr auto;

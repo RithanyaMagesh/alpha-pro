@@ -415,6 +415,37 @@ const stepItems = [
     flex-shrink: 0;
   }
 
+  @media (min-width: 641px) {
+    .sixty-section {
+      padding-block: clamp(56px, 11vh, 130px);
+      padding-block: clamp(56px, 11svh, 130px);
+    }
+
+    .sixty-h2 {
+      font-size: clamp(28px, min(3.4vw, 6.4vh), 46px);
+      font-size: clamp(28px, min(3.4vw, 6.4svh), 46px);
+    }
+
+    .led {
+      padding: clamp(14px, 2.6vh, 28px) clamp(20px, 2.8vw, 40px)
+        clamp(12px, 2vh, 22px);
+      padding: clamp(14px, 2.6svh, 28px) clamp(20px, 2.8vw, 40px)
+        clamp(12px, 2svh, 22px);
+    }
+
+    .led .ghost,
+    .led .lit {
+      font-size: clamp(70px, min(10.5vw, 17vh), 150px);
+      font-size: clamp(70px, min(10.5vw, 17svh), 150px);
+    }
+
+    .led .lit {
+      left: clamp(20px, 2.8vw, 40px);
+      top: clamp(14px, 2.6vh, 28px);
+      top: clamp(14px, 2.6svh, 28px);
+    }
+  }
+
   /* md: 768px - 1023px (clock top, steps 2x2, form 2x2) */
   @media (min-width: 768px) {
     .led {
@@ -469,7 +500,8 @@ const stepItems = [
 
     .steps {
       grid-template-columns: repeat(4, 1fr);
-      margin-top: 80px;
+      margin-top: clamp(28px, 6vh, 80px);
+      margin-top: clamp(28px, 6svh, 80px);
     }
 
     .st {
@@ -487,7 +519,8 @@ const stepItems = [
 
     .book {
       grid-template-columns: 1fr 1fr 1fr auto;
-      margin-top: 70px;
+      margin-top: clamp(28px, 6vh, 70px);
+      margin-top: clamp(28px, 6svh, 70px);
     }
 
     .book > .btn {

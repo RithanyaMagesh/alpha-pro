@@ -63,7 +63,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
-  min-height: 100vh;
+  min-height: 94vh;
+  min-height: 100svh;
 }
 
 img {
@@ -291,5 +292,21 @@ h4 {
   }
   html {
     scroll-behavior: auto;
+  }
+}
+
+@media (min-width: 641px) {
+  :root {
+    --navh: clamp(64px, 11vh, 92px);
+    --navh: clamp(64px, 11svh, 92px);
+  }
+
+  html {
+    scroll-padding-top: calc(var(--navh) + 8px);
+  }
+
+  .section-h2 {
+    font-size: clamp(28px, min(3.4vw, 6.4vh), 46px);
+    font-size: clamp(28px, min(3.4vw, 6.4svh), 46px);
   }
 }

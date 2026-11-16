@@ -581,6 +581,11 @@ const defaultProg = programs[defaultIndex]!;
 
   /* 641px - 1100px: one centred column, 4x2 tiles */
   @media (min-width: 641px) {
+    .wheel-section {
+      padding-block: clamp(56px, 11vh, 130px);
+      padding-block: clamp(56px, 11svh, 130px);
+    }
+
     .wheel-grid {
       gap: 48px;
     }
@@ -592,7 +597,8 @@ const defaultProg = programs[defaultIndex]!;
 
     .dial {
       --d: min(64vw, 480px);
-      margin-block: 56px 70px;
+      margin-block: clamp(36px, 6vh, 56px) clamp(48px, 8vh, 70px);
+      margin-block: clamp(36px, 6svh, 56px) clamp(48px, 8svh, 70px);
     }
 
     .spin {
@@ -613,7 +619,8 @@ const defaultProg = programs[defaultIndex]!;
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       overflow-x: visible;
-      margin-top: 30px;
+      margin-top: clamp(16px, 3vh, 30px);
+      margin-top: clamp(16px, 3svh, 30px);
       padding-bottom: 0;
     }
 
@@ -647,8 +654,10 @@ const defaultProg = programs[defaultIndex]!;
     }
 
     .dial {
-      --d: clamp(340px, 36vw, 520px);
-      margin-block: 56px 70px;
+      --d: clamp(300px, min(36vw, 62vh), 520px);
+      --d: clamp(300px, min(36vw, 62svh), 520px);
+      margin-block: clamp(36px, 6vh, 56px) clamp(48px, 8vh, 70px);
+      margin-block: clamp(36px, 6svh, 56px) clamp(48px, 8svh, 70px);
       margin-inline: clamp(88px, 8.5vw, 116px);
       justify-self: center;
     }
@@ -667,7 +676,8 @@ const defaultProg = programs[defaultIndex]!;
     .pstrip {
       grid-template-columns: repeat(8, minmax(0, 1fr));
       gap: 10px;
-      margin-top: 30px;
+      margin-top: clamp(16px, 3vh, 30px);
+      margin-top: clamp(16px, 3svh, 30px);
     }
   }
 

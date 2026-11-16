@@ -154,8 +154,16 @@ const galleryItems = await Promise.all(
     background: transparent;
     color: var(--ink);
     max-width: 100vw;
-    max-height: 100vh;
+    max-height: 94vh;
+    max-height: 100svh;
     overscroll-behavior: contain;
+  }
+
+  @media (min-width: 641px) {
+    .gallery-section {
+      padding-block: clamp(56px, 11vh, 130px);
+      padding-block: clamp(56px, 11svh, 130px);
+    }
   }
 
   .lb-dialog::backdrop {

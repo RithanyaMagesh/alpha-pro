@@ -168,6 +168,13 @@ import { compareRows } from '../../data/plans';
     border: 0;
   }
 
+  @media (min-width: 641px) {
+    .compare-section {
+      padding-block: clamp(56px, 11vh, 130px);
+      padding-block: clamp(56px, 11svh, 130px);
+    }
+  }
+
   @media (min-width: 768px) {
     .compare-table-outer::after {
       display: none;
