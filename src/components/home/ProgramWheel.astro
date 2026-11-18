@@ -55,7 +55,7 @@ const defaultProg = programs[defaultIndex]!;
           programs.map((prog, i) => (
             <Image
               src={photoMap[prog.photo]!}
-              alt={prog.name}
+              alt={`${prog.name} training at Alpha Pro Fitness, Bengaluru`}
               class:list={['bw-photo', 'wheel-photo-img', { on: i === defaultIndex }]}
               widths={[320, 560]}
               sizes="(min-width: 768px) 560px, 82vw"

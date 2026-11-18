@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Page not found | Alpha Pro Fitness"
+  description="The page you were looking for does not exist. Head back to Alpha Pro Fitness or view our gym membership plans in Lingadheeranahalli, Bengaluru."
+  currentPath="/404"
+  noindex={true}
+>
+  <main class="not-found">
+    <div class="container">
+      <span class="section-label">404</span>
+      <h1 class="display-title">THIS PAGE<br />SKIPPED LEG DAY.</h1>
+      <p class="not-found-copy">
+        It isn't here. Head back to the home page or check our membership plans.
+      </p>
+      <div class="not-found-actions">
+        <a class="nf-btn nf-primary" href="/">Back to home</a>
+        <a class="nf-btn nf-outline" href="/membership">See membership</a>
+      </div>
+    </div>
+  </main>
+</Base>
+
+<style>
+  .not-found {
+    padding: clamp(140px, 20vw, 220px) 0 clamp(80px, 10vw, 140px);
+    min-height: 70vh;
+  }
+
+  .not-found h1 {
+    font-size: clamp(48px, 11vw, 120px);
+    margin-top: 14px;
+  }
+
+  .not-found-copy {
+    color: var(--body);
+    margin-top: 24px;
+    max-width: 40ch;
+    font-size: clamp(16px, 1.4vw, 19px);
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+
+  .nf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 26px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .nf-primary {
+    background: var(--lime);
+    color: var(--bg);
+  }
+
+  .nf-primary:hover {
+    background: var(--ink);
+  }
+
+  .nf-outline {
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .nf-outline:hover {
+    border-color: var(--lime);
+    color: var(--lime);
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import logoImg from '../assets/logo/af-full.png';
+import logoImg from '../assets/logo/logooo.png';
 import { siteConfig } from '../data/site';
 ---
 
@@ -11,10 +11,10 @@ import { siteConfig } from '../data/site';
         src={logoImg}
         alt="AlphaPro Fitness Logo"
         class="logo-img"
-        width={160}
-        height={84}
-        widths={[120, 160]}
-        sizes="(min-width: 1024px) 160px, 120px"
+        width={1080}
+        height={1080}
+        widths={[150, 225]}
+        sizes="(min-width: 1024px) 225px, 150px"
         format="webp"
         loading="lazy"
       />
@@ -96,7 +96,7 @@ import { siteConfig } from '../data/site';
   }
 
   .logo-img {
-    height: clamp(56px, 6vw, 84px);
+    height: clamp(70px, 7.5vw, 105px);
     width: auto;
     object-fit: contain;
   }

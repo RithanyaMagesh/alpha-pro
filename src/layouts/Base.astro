@@ -1,16 +1,22 @@
 ---
 import '../styles/global.css';
+import Preloader from '../components/Preloader.astro';
 import Nav from '../components/Nav.astro';
 import MobileMenu from '../components/MobileMenu.astro';
 import MobileActionBar from '../components/MobileActionBar.astro';
 import Footer from '../components/Footer.astro';
 import { siteConfig } from '../data/site';
+import { plans } from '../data/plans';
+import { faqs } from '../data/faq';
+import { programs } from '../data/programs';
 
 interface Props {
   title: string;
   description: string;
   currentPath?: string;
   isHome?: boolean;
+  noindex?: boolean;
+  breadcrumbLabel?: string;
 }
 
 const {
@@ -18,73 +24,219 @@ const {
   description,
   currentPath = Astro.url.pathname,
   isHome = false,
+  noindex = false,
+  breadcrumbLabel,
 } = Astro.props;
 
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site || 'https://alphaprofitness.in').href;
-const ogImageUrl = new URL('/og-image.png', Astro.site || 'https://alphaprofitness.in').href;
+const baseUrl = Astro.site ?? new URL('https://alphaprofitness.in');
+const siteUrl = baseUrl.href.replace(/\/$/, '');
+const canonicalUrl = new URL(Astro.url.pathname, baseUrl).href;
+const ogImageUrl = `${siteUrl}/og-image.png`;
+const logoUrl = `${siteUrl}/favicon.png`;
+const orgId = `${siteUrl}/#gym`;
+const websiteId = `${siteUrl}/#website`;
+const pageName = breadcrumbLabel ?? (isHome ? 'Home' : title.split('|')[0].trim());
 
-const schemaData = isHome
-  ? {
+const gymSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['HealthClub', 'SportsActivityLocation', 'LocalBusiness'],
+  '@id': orgId,
+  name: siteConfig.name,
+  alternateName: 'AlphaPro Fitness',
+  description: siteConfig.description,
+  url: siteUrl,
+  logo: logoUrl,
+  image: ogImageUrl,
+  telephone: siteConfig.phoneFormatted,
+  priceRange: '₹₹',
+  currenciesAccepted: 'INR',
+  paymentAccepted: 'Cash, UPI, Card',
+  sameAs: [siteConfig.instagramUrl, siteConfig.mapsUrl],
+  hasMap: siteConfig.mapsUrl,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: siteConfig.phoneFormatted,
+    contactType: 'customer service',
+    areaServed: 'IN',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: siteConfig.streetAddress,
+    addressLocality: siteConfig.addressLocality,
+    addressRegion: 'Karnataka',
+    postalCode: siteConfig.postalCode,
+    addressCountry: 'IN',
+  },
+  areaServed: [
+    { '@type': 'Place', name: 'Lingadheeranahalli' },
+    { '@type': 'City', name: 'Bengaluru' },
+    { '@type': 'State', name: 'Karnataka' },
+  ],
+  amenityFeature: [
+    {
+      '@type': 'LocationFeatureSpecification',
+      name: 'Air conditioning',
+      value: true,
+    },
+    {
+      '@type': 'LocationFeatureSpecification',
+      name: 'Dedicated parking on premises',
+      value: true,
+    },
+    {
+      '@type': 'LocationFeatureSpecification',
+      name: 'Certified coaches',
+      value: true,
+    },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Gym memberships and training programs',
+    itemListElement: [
+      ...plans.map((plan) => ({
+        '@type': 'Offer',
+        name: `${plan.name} gym membership`,
+        description: plan.features.join('. '),
+        price: plan.price.replace(/[^\d]/g, ''),
+        priceCurrency: 'INR',
+        category: 'Gym membership',
+        url: `${siteUrl}/membership`,
+        availability: 'https://schema.org/InStock',
+      })),
+      ...programs.map((program) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: program.name,
+          description: program.description,
+        },
+      })),
+    ],
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': websiteId,
+  url: siteUrl,
+  name: siteConfig.name,
+  alternateName: 'AlphaPro Fitness',
+  description: siteConfig.description,
+  inLanguage: 'en-IN',
+  publisher: { '@id': orgId },
+};
+
+const webPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': canonicalUrl,
+  url: canonicalUrl,
+  name: title,
+  description,
+  inLanguage: 'en-IN',
+  isPartOf: { '@id': websiteId },
+  about: { '@id': orgId },
+  primaryImageOfPage: {
+    '@type': 'ImageObject',
+    url: ogImageUrl,
+    width: 1200,
+    height: 630,
+  },
+};
+
+const breadcrumbSchema = isHome || noindex
+  ? null
+  : {
       '@context': 'https://schema.org',
-      '@type': 'HealthClub',
-      name: siteConfig.name,
-      description: siteConfig.description,
-      telephone: siteConfig.phoneFormatted,
-      url: 'https://alphaprofitness.in',
-      sameAs: [siteConfig.instagramUrl],
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: siteConfig.streetAddress,
-        addressLocality: siteConfig.addressLocality,
-        postalCode: siteConfig.postalCode,
-        addressCountry: 'IN',
-      },
-      amenityFeature: [
+      '@type': 'BreadcrumbList',
+      itemListElement: [
         {
-          '@type': 'LocationFeatureSpecification',
-          name: 'Air conditioning',
-          value: true,
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: `${siteUrl}/`,
         },
         {
-          '@type': 'LocationFeatureSpecification',
-          name: 'Dedicated parking on premises',
-          value: true,
+          '@type': 'ListItem',
+          position: 2,
+          name: pageName,
+          item: canonicalUrl,
         },
       ],
+    };
+
+const faqSchema = currentPath.startsWith('/membership')
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: item.answer,
+        },
+      })),
     }
   : null;
+
+const schemaData = noindex
+  ? []
+  : [gymSchema, websiteSchema, webPageSchema, breadcrumbSchema, faqSchema].filter(Boolean);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-IN" class:list={{ 'is-loading': isHome }}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+    />
+    <meta name="author" content={siteConfig.name} />
+    <meta name="theme-color" content="#161616" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="geo.region" content="IN-KA" />
+    <meta name="geo.placename" content="Bengaluru" />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en-IN" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${siteConfig.name} — gym in Lingadheeranahalli, Bengaluru`} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={`${siteConfig.name} — gym in Lingadheeranahalli, Bengaluru`} />
 
     <!-- Favicon & Icons -->
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="180x180" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
-    {schemaData && (
+    {schemaData.length > 0 && (
       <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
     )}
   </head>
   <body>
+    {isHome && <Preloader />}
+
     <!-- Rubber floor grain canvas -->
     <canvas id="grain" aria-hidden="true"></canvas>
 
@@ -101,11 +253,13 @@ const schemaData = isHome
       import { initNav } from '../scripts/nav';
       import { initReveal } from '../scripts/reveal';
       import { initCountUp } from '../scripts/countup';
+      import { initLenis } from '../scripts/lenis';
 
       initGrain();
       initNav();
       initReveal();
       initCountUp();
+      initLenis();
     </script>
   </body>
 </html>

@@ -51,6 +51,35 @@ html {
   scroll-padding-top: 96px;
   color: var(--ink);
   overflow-x: clip;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
@@ -197,6 +226,19 @@ h4 {
   outline-offset: 3px;
 }
 
+/* Screen-reader-only text (keeps SEO context without changing the design) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Number tabular nums */
 .tabular-numbers {
   font-stretch: 125%;
@@ -209,6 +251,19 @@ h4 {
   body {
     padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px));
   }
+}
+
+/* Preloader gating: hold the page still until the loading screen clears */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+
+html.is-loading .hero-rise,
+html.is-loading .hero-rise-delayed,
+html.is-loading .hero-photo-zoom,
+html.is-loading .hero-stripe-slide {
+  animation-play-state: paused;
 }
 
 /* Animation utilities */
