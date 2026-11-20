@@ -21,12 +21,6 @@ import Button from '../Button.astro';
             </div>
             <div class="pm">{plan.subline}</div>
 
-            <ul class="tier-features">
-              {plan.features.map((feat) => (
-                <li>{feat}</li>
-              ))}
-            </ul>
-
             <div class="tier-btn-wrap">
               <Button
                 href={`/?plan=${encodeURIComponent(plan.name)}#book`}

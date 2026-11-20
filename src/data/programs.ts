@@ -9,67 +9,75 @@ export interface ProgramItem {
 
 export const programs: ProgramItem[] = [
   {
-    id: 'strength',
-    name: 'Strength Training',
-    shortName: 'Strength',
-    photo: 'strength',
-    description: 'Racks, bars and plates, coached from your very first lift. Form first, weight later.',
-    tags: ['Barbell', 'Progressive', 'All levels'],
-  },
-  {
-    id: 'personal',
-    name: 'Personal Training',
-    shortName: 'Personal Training',
-    photo: 'personal',
-    description: 'One coach, one plan, built around your goal and your week.',
-    tags: ['1-on-1', 'Custom plan', 'Flexible slots'],
-  },
-  {
-    id: 'crossfit',
-    name: 'Crossfit',
-    shortName: 'Crossfit',
-    photo: 'crossfit',
-    description: 'Short, sweaty, a bit loud. Kettlebells, carries and circuits, coached so you go hard without getting hurt.',
-    tags: ['High intensity', 'Groups', 'All levels'],
-  },
-  {
-    id: 'bodybuilding',
-    name: 'Body Building',
-    shortName: 'Body Building',
-    photo: 'bodybuilding',
-    description: 'A full dumbbell wall and benches for hypertrophy splits, from your first cycle to stage prep.',
-    tags: ['Hypertrophy', 'Splits', 'Intermediate+'],
-  },
-  {
-    id: 'weight',
-    name: 'Weight Management',
-    shortName: 'Weight Mgmt',
-    photo: 'weight',
-    description: 'Lose fat or gain size steadily, with check-ins so you can see the change week to week.',
-    tags: ['Fat loss', 'Weight gain', 'Tracked'],
-  },
-  {
-    id: 'nutrition',
-    name: 'Nutrition Guidance',
-    shortName: 'Nutrition',
-    photo: 'nutrition',
-    description: 'Simple eating plans that fit Indian kitchens and real routines. Pairs with any program.',
-    tags: ['Meal plans', 'Indian diet', 'Add-on'],
+    id: 'aerobics',
+    name: 'Aerobics',
+    shortName: 'Aerobics',
+    photo: 'aerobics',
+    description:
+      'Move, sweat, and groove together. Rhythmic group sessions packed with high energy and great music for every fitness level.',
+    tags: ['Group sessions', 'Music', 'All levels'],
   },
   {
     id: 'cardio',
     name: 'Cardio',
     shortName: 'Cardio',
     photo: 'cardio',
-    description: 'Treadmills, bikes and conditioning work for stamina and heart health, on a fully air-conditioned floor.',
+    description:
+      'Boost your endurance and heart health with premium treadmills, bikes and rowers.',
     tags: ['Endurance', 'Heart health', 'Any time'],
   },
   {
-    id: 'aerobics',
-    name: 'Aerobics',
-    shortName: 'Aerobics',
-    photo: 'aerobics',
-    description: 'Group sessions with music and energy. Open to every fitness level.',
-    tags: ['Groups', 'Music', 'Beginners welcome'],
+    id: 'crossfit',
+    name: 'Crossfit',
+    shortName: 'Crossfit',
+    photo: 'crossfit',
+    description:
+      'High-energy functional conditioning. Push your limits safely through dynamic movements, kettlebell work, and heart-pumping group circuits.',
+    tags: ['Conditioning', 'Kettlebells', 'Circuits'],
+  },
+  {
+    id: 'strength',
+    name: 'Strength Training',
+    shortName: 'Strength',
+    photo: 'strength',
+    description:
+      'Build raw power from the ground up. Master proper mechanics with free weights and dedicated racks to build a solid foundation that lasts.',
+    tags: ['Free weights', 'Racks', 'Foundation'],
+  },
+  {
+    id: 'weight',
+    name: 'Weight Management',
+    shortName: 'Weight Mgmt',
+    photo: 'weight',
+    description:
+      'Transform your body composition with confidence. Consistent progress tracking and expert guidance whether you are leaning down or bulking up.',
+    tags: ['Fat loss', 'Muscle gain', 'Tracked'],
+  },
+  {
+    id: 'nutrition',
+    name: 'Nutrition Guidance',
+    shortName: 'Nutrition',
+    photo: 'nutrition',
+    description:
+      'Fuel your body right without overcomplicating it. Practical, sustainable meal frameworks tailored seamlessly to everyday lifestyles.',
+    tags: ['Meal plans', 'Sustainable', 'Everyday'],
+  },
+  {
+    id: 'personal',
+    name: 'Personal Training',
+    shortName: 'Personal Training',
+    photo: 'personal',
+    description:
+      'Zero guesswork, total focus. Get personalized workout programming, expert form correction, and one-on-one coaching tailored to your individual goals and schedule.',
+    tags: ['1-on-1', 'Custom plan', 'Form focus'],
+  },
+  {
+    id: 'bodybuilding',
+    name: 'Body Building',
+    shortName: 'Body Building',
+    photo: 'bodybuilding',
+    description:
+      'Your bodybuilding journey starts here. From your first transformation to the competition stage, experience structured hypertrophy training, progressive muscle development, and dedicated physique conditioning designed to take you from beginner to advanced bodybuilding and stage-ready competition preparation.',
+    tags: ['Hypertrophy', 'Physique', 'Stage prep'],
   },
 ];

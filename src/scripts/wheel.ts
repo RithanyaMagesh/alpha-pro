@@ -10,6 +10,7 @@ export function initWheel(): void {
   const idxEl = document.getElementById('w-idx');
   const nameEl = document.getElementById('w-name');
   const descEl = document.getElementById('w-desc');
+  const readMoreBtn = document.getElementById('w-readmore') as HTMLButtonElement | null;
   const tagsEl = document.getElementById('w-tags');
   const prevBtn = document.getElementById('w-prev');
   const nextBtn = document.getElementById('w-next');
@@ -22,8 +23,8 @@ export function initWheel(): void {
 
   const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const N = programs.length;
-  // Order matters, and default selected is index 2, Crossfit
-  let cur = 2;
+  // Order matters, and default selected is index 0, Aerobics
+  let cur = 0;
   let currentRot = (-cur * 360) / N;
   let targetRot = currentRot;
   let rafId: number | null = null;
@@ -160,6 +161,31 @@ export function initWheel(): void {
     rafId = requestAnimationFrame(step);
   }
 
+  function updateReadMore() {
+    if (!descEl || !readMoreBtn) return;
+    if (window.innerWidth > 640) {
+      readMoreBtn.hidden = true;
+      descEl.classList.remove('expanded');
+      return;
+    }
+    const isExpanded = descEl.classList.contains('expanded');
+    if (isExpanded) {
+      readMoreBtn.hidden = false;
+      readMoreBtn.textContent = 'Read less';
+      return;
+    }
+    const isOverflowing = descEl.scrollHeight > descEl.clientHeight + 2;
+    readMoreBtn.hidden = !isOverflowing;
+    readMoreBtn.textContent = 'Read more';
+  }
+
+  if (readMoreBtn && descEl) {
+    readMoreBtn.addEventListener('click', () => {
+      descEl.classList.toggle('expanded');
+      updateReadMore();
+    });
+  }
+
   function updateUi(i: number) {
     photoImgs.forEach((img, k) => img.classList.toggle('on', k === i));
     progressBars.forEach((b, k) => b.classList.toggle('d', k <= i));
@@ -176,11 +202,13 @@ export function initWheel(): void {
       setTimeout(() => {
         idxEl.textContent = counterText;
         nameEl.textContent = programs[i]?.name ?? '';
+        descEl.classList.remove('expanded');
         descEl.textContent = programs[i]?.description ?? '';
         tagsEl.innerHTML = (programs[i]?.tags ?? [])
           .map((tag) => `<span>${tag}</span>`)
           .join('');
         rightCol.classList.remove('out');
+        requestAnimationFrame(updateReadMore);
       }, 220);
     }
   }
@@ -346,6 +374,7 @@ export function initWheel(): void {
   window.addEventListener('resize', () => {
     measureLabels();
     paint();
+    updateReadMore();
   });
 
   if (document.fonts?.ready) {

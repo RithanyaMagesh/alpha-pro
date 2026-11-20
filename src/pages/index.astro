@@ -20,21 +20,19 @@ import { siteConfig } from '../data/site';
   <main>
     <Hero />
     <FeatureStrip />
-    <AboutTeaser />
+    <CtaBand titleTop="READY TO" titleBottom="EVOLVE?" />
     <ProgramWheel />
     <SixtyMinutes />
+    <AboutTeaser />
     <PlansTeaser />
-    <CtaBand titleTop="READY TO" titleBottom="EVOLVE?" />
     <Contact />
   </main>
 
   <script>
     import { initWheel } from '../scripts/wheel';
     import { initLed } from '../scripts/led';
-    import { initBooking } from '../scripts/booking';
 
     initWheel();
     initLed();
-    initBooking();
   </script>
 </Base>

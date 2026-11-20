@@ -2,8 +2,9 @@
 import Base from '../layouts/Base.astro';
 import AboutHero from '../components/about/AboutHero.astro';
 import Owner from '../components/about/Owner.astro';
+import Gallery from '../components/membership/Gallery.astro';
+import Faq from '../components/membership/Faq.astro';
 import FeatureStrip from '../components/FeatureStrip.astro';
-import CtaBand from '../components/CtaBand.astro';
 import { siteConfig } from '../data/site';
 ---
 
@@ -16,7 +17,16 @@ import { siteConfig } from '../data/site';
   <main>
     <AboutHero />
     <Owner />
+    <Gallery />
+    <Faq />
     <FeatureStrip />
-    <CtaBand titleTop="READY TO" titleBottom="EVOLVE?" />
   </main>
+
+  <script>
+    import { initFaq } from '../scripts/faq';
+    import { initLightbox } from '../scripts/lightbox';
+
+    initFaq();
+    initLightbox();
+  </script>
 </Base>

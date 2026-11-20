@@ -10,6 +10,43 @@ export function initNav(): void {
     };
     window.addEventListener('scroll', checkScroll, { passive: true });
     checkScroll();
+
+    // Highlight Contact in nav while #contact is in view on Home
+    const contactEl = document.getElementById('contact');
+    if (contactEl && 'IntersectionObserver' in window) {
+      const homeLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('.nav-link[href="/"], .sheet-link[href="/"]')
+      );
+      const contactLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>(
+          '.nav-link[href="/#contact"], .sheet-link[href="/#contact"]'
+        )
+      );
+
+      const setContactActive = (isContactActive: boolean) => {
+        homeLinks.forEach((link) => {
+          link.classList.toggle('on', !isContactActive);
+          if (!isContactActive) link.setAttribute('aria-current', 'page');
+          else link.removeAttribute('aria-current');
+        });
+        contactLinks.forEach((link) => {
+          link.classList.toggle('on', isContactActive);
+          if (isContactActive) link.setAttribute('aria-current', 'page');
+          else link.removeAttribute('aria-current');
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          if (entry) {
+            setContactActive(entry.isIntersecting);
+          }
+        },
+        { rootMargin: '-20% 0px -30% 0px', threshold: 0.1 }
+      );
+      observer.observe(contactEl);
+    }
   }
 
   if (burger && sheet) {

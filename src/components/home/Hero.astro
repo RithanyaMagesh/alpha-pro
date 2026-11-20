@@ -9,7 +9,7 @@ import { siteConfig } from '../../data/site';
   <div class="hero-ph">
     <Image
       src={heroImg}
-      alt="Alpha Pro Fitness gym training floor in Lingadheeranahalli, Bengaluru"
+      alt="AlphaPro Fitness gym training floor in D Group Employees Layout, Andrahalli, Bengaluru"
       class="bw-photo hero-img hero-photo-zoom"
       widths={[480, 768, 1200, 1600]}
       sizes="(min-width: 1024px) 58vw, (min-width: 768px) 55vw, 100vw"
@@ -25,32 +25,20 @@ import { siteConfig } from '../../data/site';
   <i class="stripe stripe-2 hero-s2 hero-stripe-slide" aria-hidden="true"></i>
 
   <div class="container hero-txt">
-    <span class="section-label hero-label">Lingadheeranahalli, Bengaluru</span>
     <h1 class="display-title hero-h1 hero-rise">
-      <span class="sr-only">Alpha Pro Fitness — gym in Lingadheeranahalli, Bengaluru: </span>
+      <span class="sr-only">AlphaPro Fitness — gym in D Group Employees Layout, Andrahalli, Bengaluru: </span>
       TRAIN.<br />BUILD.<br />EVOLVE.
     </h1>
     <p class="hero-sub hero-rise-delayed">
-      4,500 sq.ft of iron, coaches on the floor, and A/C that actually keeps up.
+      {siteConfig.heroSub}
     </p>
     <div class="hero-acts hero-rise-delayed">
-      <Button href="/#book" variant="primary" size="default" arrow>
+      <Button href="/#book" variant="primary" size="default" arrow data-booking-mode="trial">
         Book a free trial
       </Button>
       <Button href={`tel:${siteConfig.phoneTel}`} variant="outline" size="default">
         Call {siteConfig.phoneDisplay}
       </Button>
-    </div>
-  </div>
-
-  <div class="hero-badge" aria-label="Floor and amenities summary">
-    <div class="badge-cell">
-      <b class="tabular-numbers" data-count="4500">4,500</b>
-      <span>sq.ft floor</span>
-    </div>
-    <div class="badge-cell">
-      <b>A/C</b>
-      <span>Every corner</span>
     </div>
   </div>
 </header>

@@ -22,7 +22,7 @@ const photoMap: Record<string, ImageMetadata> = {
   aerobics: aerobicsImg,
 };
 
-const defaultIndex = 2;
+const defaultIndex = 0;
 const defaultProg = programs[defaultIndex]!;
 ---
 
@@ -31,10 +31,11 @@ const defaultProg = programs[defaultIndex]!;
     <!-- Left Column -->
     <div class="wheel-col wheel-left">
       <span class="section-label">Spin the wheel or pick one below</span>
-      <h2 id="wheel-heading" class="section-h2">8 WAYS TO TRAIN.</h2>
+      <h2 id="wheel-heading" class="section-h2">8 PILLARS OF FITNESS.</h2>
       <p class="wheel-intro">
-        Eight ways to train on one floor. Scroll or drag the wheel. Tell a coach
-        your goal and they'll put you on the right one.
+        Eight foundational pillars of training, nutrition, and support on one
+        floor. Scroll or drag the wheel, tell a coach your goal, and they'll
+        put you on the right one.
       </p>
       <div class="pbar" id="w-bar" aria-label="Program progress indicator"></div>
     </div>
@@ -55,7 +56,7 @@ const defaultProg = programs[defaultIndex]!;
           programs.map((prog, i) => (
             <Image
               src={photoMap[prog.photo]!}
-              alt={`${prog.name} training at Alpha Pro Fitness, Bengaluru`}
+              alt={`${prog.name} training at AlphaPro Fitness, Bengaluru`}
               class:list={['bw-photo', 'wheel-photo-img', { on: i === defaultIndex }]}
               widths={[320, 560]}
               sizes="(min-width: 768px) 560px, 82vw"
@@ -72,9 +73,10 @@ const defaultProg = programs[defaultIndex]!;
 
     <!-- Right Column (Details) -->
     <div class="wheel-col wheel-right">
-      <div class="idx" id="w-idx">03 / 08</div>
+      <div class="idx" id="w-idx">01 / 08</div>
       <h3 class="prog-title" id="w-name">{defaultProg.name}</h3>
       <p class="prog-desc" id="w-desc">{defaultProg.description}</p>
+      <button type="button" class="read-more-btn" id="w-readmore" hidden>Read more</button>
       <div class="prog-tags" id="w-tags">
         {defaultProg.tags.map((tag) => <span>{tag}</span>)}
       </div>
@@ -118,7 +120,7 @@ const defaultProg = programs[defaultIndex]!;
             <path d="M4 12h15M13 6l6 6-6 6"></path>
           </svg>
         </button>
-        <a href="#book" class="try-link" data-try>
+        <a href="#book" class="try-link" data-try data-booking-mode="trial">
           Try it free
           <svg
             class="arr"
@@ -424,6 +426,35 @@ const defaultProg = programs[defaultIndex]!;
     margin-top: 18px;
     max-width: 34ch;
     line-height: 1.55;
+  }
+
+  .read-more-btn {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--lime);
+    background: none;
+    border: none;
+    padding: 4px 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .prog-desc:not(.expanded) {
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+      line-clamp: 5;
+      overflow: clip;
+    }
+  }
+
+  @media (min-width: 641px) {
+    .read-more-btn {
+      display: none !important;
+    }
   }
 
   .prog-tags {

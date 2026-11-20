@@ -4,23 +4,23 @@ import { programs } from '../../data/programs';
 const stepItems = [
   {
     time: '00 – 10 MIN',
-    title: 'Walk the floor',
-    desc: 'See the 4,500 sq.ft, the kit and the A/C for yourself.',
+    title: 'Explore Our Space',
+    desc: 'Experience our elite 4,500 sq.ft training floor and climate-controlled facility.',
   },
   {
     time: '10 – 20 MIN',
-    title: 'Goal chat with a coach',
-    desc: 'What you want, what’s held you back, what fits your week.',
+    title: 'Goal Mapping Session',
+    desc: 'Define your targets, tackle past roadblocks, and map out a realistic weekly routine.',
   },
   {
     time: '20 – 50 MIN',
-    title: 'Your first coached workout',
-    desc: 'Form first. Weight later. Every set watched.',
+    title: 'Coached Trial Workout',
+    desc: 'Form first. Weight later. Experience hands-on guidance where every set is watched.',
   },
   {
     time: '50 – 60 MIN',
-    title: 'A plan you take home',
-    desc: 'Program, plan and price. No pressure to sign.',
+    title: 'Your Take-Home Blueprint',
+    desc: 'Get your custom training program, clear pricing, and zero pressure to sign.',
   },
 ];
 ---
@@ -39,7 +39,7 @@ const stepItems = [
       <div class="sixty-copy">
         <h2 id="sixty-h2" class="section-h2 sixty-h2">GIVE US 60 MINUTES.</h2>
         <p class="sixty-lead">
-          We'll prove why we're the best gym in Lingadheeranahalli. One free hour
+          We'll prove why we're the best gym in D Group, Andrahalli. One free hour
           with a certified coach. Walk out convinced, or walk out owing nothing.
         </p>
       </div>
@@ -88,14 +88,16 @@ const stepItems = [
       <div class="fl">
         <label for="b-prog">Program</label>
         <select id="b-prog" name="program">
+          <option value="Complete gym access" selected>
+            Complete gym access
+          </option>
           {
             programs.map((p) => (
-              <option value={p.name} selected={p.name === 'Crossfit'}>
+              <option value={p.name}>
                 {p.name}
               </option>
             ))
           }
-          <option value="Not sure yet">Not sure yet</option>
         </select>
       </div>
 

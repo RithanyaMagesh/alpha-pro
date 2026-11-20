@@ -68,7 +68,7 @@ const gymSchema = {
     addressCountry: 'IN',
   },
   areaServed: [
-    { '@type': 'Place', name: 'Lingadheeranahalli' },
+    { '@type': 'Place', name: 'D Group Employees Layout, Andrahalli' },
     { '@type': 'City', name: 'Bengaluru' },
     { '@type': 'State', name: 'Karnataka' },
   ],
@@ -217,14 +217,14 @@ const schemaData = noindex
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${siteConfig.name} — gym in Lingadheeranahalli, Bengaluru`} />
+    <meta property="og:image:alt" content={`${siteConfig.name} — gym in D Group Employees Layout, Andrahalli, Bengaluru`} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content={`${siteConfig.name} — gym in Lingadheeranahalli, Bengaluru`} />
+    <meta name="twitter:image:alt" content={`${siteConfig.name} — gym in D Group Employees Layout, Andrahalli, Bengaluru`} />
 
     <!-- Favicon & Icons -->
     <link rel="icon" type="image/png" sizes="180x180" href="/favicon.png" />
@@ -254,12 +254,14 @@ const schemaData = noindex
       import { initReveal } from '../scripts/reveal';
       import { initCountUp } from '../scripts/countup';
       import { initLenis } from '../scripts/lenis';
+      import { initBooking } from '../scripts/booking';
 
       initGrain();
       initNav();
       initReveal();
       initCountUp();
       initLenis();
+      initBooking();
     </script>
   </body>
 </html>

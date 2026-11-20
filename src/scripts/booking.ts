@@ -1,7 +1,10 @@
+type BookingMode = 'direct' | 'trial' | 'plan';
+
+const MODE_KEY = 'alphapro_booking_mode';
+const PLAN_KEY = 'alphapro_selected_plan';
+
 export function initBooking(): void {
   const form = document.getElementById('book') as HTMLFormElement | null;
-  if (!form) return;
-
   const nameInput = document.getElementById('b-name') as HTMLInputElement | null;
   const phoneInput = document.getElementById('b-phone') as HTMLInputElement | null;
   const progSelect = document.getElementById('b-prog') as HTMLSelectElement | null;
@@ -10,6 +13,7 @@ export function initBooking(): void {
   const errEl = document.getElementById('bk-err');
   const statusEl = document.getElementById('bk-status');
 
+  let mode: BookingMode = 'direct';
   let selectedPlan: string | null = null;
   let showingError = false;
 
@@ -23,13 +27,21 @@ export function initBooking(): void {
     const nameVal = (nameInput?.value ?? '').trim();
     const digits = getPhoneDigits();
     const chosenProgram = progSelect?.value ?? '';
-    const message =
-      `Hi AlphaPro, I'd like to book my free 60-minute trial.\n` +
-      `Name: ${nameVal}\n` +
-      `Phone: ${digits}\n` +
-      `Program: ${chosenProgram}.` +
-      (selectedPlan ? ` I'm interested in the ${selectedPlan} plan.` : '');
-    return `https://wa.me/919071093361?text=${encodeURIComponent(message)}`;
+
+    const lines: string[] = [];
+    if (mode === 'trial') {
+      lines.push("Hi AlphaPro, I'd like to book my free 60-minute trial.");
+    } else {
+      lines.push('Hi AlphaPro,');
+    }
+    lines.push(`Name: ${nameVal}`);
+    lines.push(`Phone: ${digits}`);
+    lines.push(`Program: ${chosenProgram}.`);
+    if (mode === 'plan' && selectedPlan) {
+      lines.push(`I'm interested in the ${selectedPlan} plan.`);
+    }
+
+    return `https://wa.me/919071093361?text=${encodeURIComponent(lines.join('\n'))}`;
   }
 
   function updateHref(): void {
@@ -40,12 +52,47 @@ export function initBooking(): void {
 
   function setPlan(planName: string): void {
     selectedPlan = planName;
+    mode = 'plan';
+    sessionStorage.setItem(PLAN_KEY, planName);
+    sessionStorage.setItem(MODE_KEY, 'plan');
     if (planNote) {
       planNote.hidden = false;
       planNote.textContent = `Interested in the ${planName} plan. We'll go through it in your free hour.`;
     }
     updateHref();
   }
+
+  function setTrialMode(): void {
+    mode = 'trial';
+    selectedPlan = null;
+    sessionStorage.setItem(MODE_KEY, 'trial');
+    sessionStorage.removeItem(PLAN_KEY);
+    if (planNote) {
+      planNote.hidden = true;
+      planNote.textContent = '';
+    }
+    updateHref();
+  }
+
+  // Global listener for trial CTAs and plan cards linking to booking (works on all pages)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement | null;
+    const planBtn = target?.closest<HTMLElement>('[data-choose-plan]');
+    if (planBtn) {
+      const planName = planBtn.getAttribute('data-choose-plan');
+      if (planName) {
+        setPlan(planName);
+      }
+      return;
+    }
+
+    const trialBtn = target?.closest<HTMLElement>('[data-booking-mode="trial"]');
+    if (trialBtn) {
+      setTrialMode();
+    }
+  });
+
+  if (!form) return;
 
   function validate(focusInvalid: boolean): boolean {
     if (!nameInput || !phoneInput || !errEl) return false;
@@ -78,13 +125,14 @@ export function initBooking(): void {
     return true;
   }
 
-  // Check URL query param or sessionStorage
+  // Restore plan or mode from URL / sessionStorage (plan wins over trial)
   const urlParams = new URLSearchParams(window.location.search);
-  const planParam =
-    urlParams.get('plan') || sessionStorage.getItem('alphapro_selected_plan');
+  const planParam = urlParams.get('plan') || sessionStorage.getItem(PLAN_KEY);
+  const storedMode = sessionStorage.getItem(MODE_KEY);
   if (planParam) {
     setPlan(planParam);
-    sessionStorage.removeItem('alphapro_selected_plan');
+  } else if (storedMode === 'trial') {
+    setTrialMode();
   }
 
   // Keep WhatsApp link up to date and re-validate live while an error is showing
@@ -110,7 +158,7 @@ export function initBooking(): void {
   checkHash();
   window.addEventListener('hashchange', checkHash);
 
-  // Main button click: validate, let link open normally if valid, show status line
+  // Main button click: validate, let link open normally if valid, show status line, reset mode to direct
   if (bkGo) {
     bkGo.addEventListener('click', (e) => {
       updateHref();
@@ -139,6 +187,12 @@ export function initBooking(): void {
         fallbackLink.textContent = "Didn't open? Tap here.";
         statusEl.append(fallbackLink);
       }
+
+      // Reset mode to direct after successful send (next turn/edit starts fresh)
+      mode = 'direct';
+      selectedPlan = null;
+      sessionStorage.setItem(MODE_KEY, 'direct');
+      sessionStorage.removeItem(PLAN_KEY);
     });
   }
 
@@ -146,18 +200,6 @@ export function initBooking(): void {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     bkGo?.click();
-  });
-
-  // Global listener for plan cards linking to booking
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement | null;
-    const planBtn = target?.closest<HTMLElement>('[data-choose-plan]');
-    if (planBtn) {
-      const planName = planBtn.getAttribute('data-choose-plan');
-      if (planName) {
-        setPlan(planName);
-      }
-    }
   });
 
   updateHref();

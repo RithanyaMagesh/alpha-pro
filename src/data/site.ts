@@ -1,16 +1,20 @@
 export const siteConfig = {
-  name: 'Alpha Pro Fitness',
-  brandNameTop: 'ALPHA PRO',
+  name: 'AlphaPro Fitness',
+  brandNameTop: 'ALPHAPRO',
   brandNameBottom: 'FITNESS',
   tagline: 'TRAIN. BUILD. EVOLVE.',
-  description: '4,500 sq.ft of iron, coaches on the floor, and A/C that actually keeps up. The neighbourhood gym in Lingadheeranahalli, Bengaluru.',
+  heroSub: 'Train like a Pro – Build like an Alpha',
+  // Alternative heroSub: 'Zero Excuses – Fully Focused'
+  membershipInstructions: [] as string[],
+  description:
+    '4,500 sq.ft of iron, coaches on the floor, and A/C that actually keeps up. The neighbourhood gym in D Group Employees Layout, Andrahalli, Bengaluru.',
   addressLines: [
-    '4, 5, 6, 7, 2nd Block, Lingadheeranahalli,',
-    'D Group Employees Layout, Bengaluru 560091',
+    'D Group Employees Layout, Andrahalli,',
+    'Bengaluru 560091',
   ],
   addressLocality: 'Bengaluru',
   postalCode: '560091',
-  streetAddress: '4, 5, 6, 7, 2nd Block, D Group Employees Layout, Lingadheeranahalli',
+  streetAddress: 'D Group Employees Layout, Andrahalli',
   phoneDisplay: '90710 93361',
   phoneTel: '+919071093361',
   phoneFormatted: '+91-9071093361',
@@ -18,7 +22,6 @@ export const siteConfig = {
   whatsAppUrl: 'https://wa.me/919071093361',
   instagramHandle: '@alphaprofitness_1',
   instagramUrl: 'https://www.instagram.com/alphaprofitness_1/',
-  parking: 'Free, on the premises',
   mapsUrl: 'https://maps.app.goo.gl/icdGSQxqr8VHFAx37',
   navLinks: [
     { label: 'Home', href: '/' },
@@ -30,24 +33,23 @@ export const siteConfig = {
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Membership', href: '/membership' },
-    { label: 'Free 60 min', href: '/#sixty' },
     { label: 'Contact', href: '/#contact' },
   ],
   seo: {
     home: {
-      title: 'Alpha Pro Fitness | Gym in Lingadheeranahalli, Bengaluru',
+      title: 'AlphaPro Fitness | Gym in D Group, Andrahalli, Bengaluru',
       description:
-        'Looking for a gym in Lingadheeranahalli, Bengaluru? Alpha Pro Fitness has 4,500 sq.ft of iron, certified coaches, A/C and free parking. Book a free 60-minute trial.',
+        'Looking for a gym in D Group Employees Layout, Andrahalli, Bengaluru? AlphaPro Fitness has 4,500 sq.ft of iron, certified coaches, A/C and free parking. Book a free 60-minute trial.',
     },
     about: {
-      title: 'About Alpha Pro Fitness | Gym & Coaches in Lingadheeranahalli',
+      title: 'About AlphaPro Fitness | Gym & Coaches in Andrahalli, Bengaluru',
       description:
-        'Meet the coaches behind Alpha Pro Fitness, a neighbourhood gym in Lingadheeranahalli, Bengaluru. Serious training, certified guidance and a floor built for every level.',
+        'Meet the coaches behind AlphaPro Fitness, a neighbourhood gym in D Group Employees Layout, Andrahalli, Bengaluru. Serious training, certified guidance and a floor built for every level.',
     },
     membership: {
-      title: 'Gym Membership Plans from ₹2,500/month | Alpha Pro Fitness',
+      title: 'Gym Membership Plans from ₹2,500/month | AlphaPro Fitness',
       description:
-        'Compare Alpha Pro Fitness gym membership plans from ₹2,500 a month in Lingadheeranahalli, Bengaluru. Monthly, quarterly, half-yearly and annual plans with certified coaching.',
+        'Compare AlphaPro Fitness gym membership plans from ₹2,500 a month in D Group Employees Layout, Andrahalli, Bengaluru. Monthly, quarterly, half-yearly and yearly plans with certified coaching.',
     },
   },
 };
