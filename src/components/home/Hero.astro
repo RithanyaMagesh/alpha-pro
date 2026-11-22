@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import heroImg from '../../assets/photos/hero.jpg';
-import Button from '../Button.astro';
 import { siteConfig } from '../../data/site';
 ---
 
@@ -32,14 +31,6 @@ import { siteConfig } from '../../data/site';
     <p class="hero-sub hero-rise-delayed">
       {siteConfig.heroSub}
     </p>
-    <div class="hero-acts hero-rise-delayed">
-      <Button href="/#book" variant="primary" size="default" arrow data-booking-mode="trial">
-        Book a free trial
-      </Button>
-      <Button href={`tel:${siteConfig.phoneTel}`} variant="outline" size="default">
-        Call {siteConfig.phoneDisplay}
-      </Button>
-    </div>
   </div>
 </header>
 
@@ -96,10 +87,6 @@ import { siteConfig } from '../../data/site';
     min-width: 0;
   }
 
-  .hero-label {
-    margin-bottom: 18px;
-  }
-
   .hero-h1 {
     font-size: clamp(52px, 13vw, 140px);
     line-height: 0.95;
@@ -107,27 +94,13 @@ import { siteConfig } from '../../data/site';
   }
 
   .hero-sub {
-    margin-top: 20px;
-    font-size: clamp(16px, 1.4vw, 20px);
-    color: var(--body);
+    margin-top: clamp(14px, 2.6vh, 28px);
+    margin-top: clamp(14px, 2.6svh, 28px);
+    font-size: clamp(17px, 1.6vw, 22px);
+    font-weight: 500;
+    color: #cfd0cc;
     max-width: 34ch;
     line-height: 1.45;
-  }
-
-  .hero-acts {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 28px;
-  }
-
-  .hero-acts :global(.btn) {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .hero-badge {
-    display: none;
   }
 
   /* Desktop / Tablet: >= 641px */
@@ -148,24 +121,9 @@ import { siteConfig } from '../../data/site';
       padding-top: calc(var(--navh) + clamp(28px, 7svh, 110px));
     }
 
-    .hero-label {
-      margin-bottom: clamp(12px, 2.4vh, 26px);
-      margin-bottom: clamp(12px, 2.4svh, 26px);
-    }
-
     .hero-h1 {
       font-size: clamp(56px, min(8.9vw, 14.5vh), 128px);
       font-size: clamp(56px, min(8.9vw, 14.5svh), 128px);
-    }
-
-    .hero-sub {
-      margin-top: clamp(14px, 2.6vh, 28px);
-      margin-top: clamp(14px, 2.6svh, 28px);
-    }
-
-    .hero-acts {
-      margin-top: clamp(18px, 3.6vh, 40px);
-      margin-top: clamp(18px, 3.6svh, 40px);
     }
   }
 
